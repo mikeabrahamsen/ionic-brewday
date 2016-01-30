@@ -1,0 +1,11 @@
+{
+    "esnext": true,
+    "globals": {
+        "angular": false,
+        "jQuery": false,
+        "$": false,
+        "SVG": false,
+        "Snap": false,
+        "Foundation": false
+    }
+}
