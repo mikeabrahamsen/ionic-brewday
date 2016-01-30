@@ -8,4 +8,7 @@ export class Page1 {
   constructor() {
 
   }
+  submit() {
+    console.log("Submit");
+  }
 }
