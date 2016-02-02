@@ -31,9 +31,7 @@ export class Page1 {
         })
     .subscribe(
         data => {
-          this.setToken(creds);
-          email.value = null;
-          password.value = null;
+          this.setToken(JSON.parse(creds));
         },
         err => this.logError(err),
         () => this.nav.push(TabsPage);

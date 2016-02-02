@@ -1,11 +1,32 @@
 import {Page} from 'ionic/ionic';
-
+import { Http, Headers, HTTP_PROVIDERS } from 'angular2/http';
 
 @Page({
   templateUrl: 'build/pages/page2/page2.html'
 })
 export class Page2 {
-  constructor() {
+  constructor(http: Http) {
+    this.http = http;
+    this.getRecipes()
+  }
+  logError(err) {
+    console.error('Error: ' + err);
+  }
+  getRecipes() {
+
+    var token = localStorage.getItem('token');
+    var authHeader = new Headers();
+    if(token) {
+      authHeader.append('Authorization', 'Basic ' + token);
+    }
+    this.http.get('http://brewday.carbonrail.com/api/v1/recipes', {
+        headers: authHeader
+        })
+      .subscribe(
+          data => this.recipes= data,
+          err => this.logError(err),
+          () => console.log(this.recipes._body)
+          );
 
   }
 }
