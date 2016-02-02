@@ -1,6 +1,7 @@
-import {Page} from 'ionic/ionic';
+import {Page, NavController} from 'ionic/ionic';
 import { Http, Headers, HTTP_PROVIDERS } from 'angular2/http';
 import { CORE_DIRECTIVES, FORM_DIRECTIVES } from 'angular2/common';
+import {Page2} from '../page2/page2';
 
 @Page({
   templateUrl: 'build/pages/page1/page1.html',
@@ -9,7 +10,8 @@ import { CORE_DIRECTIVES, FORM_DIRECTIVES } from 'angular2/common';
 export class Page1 {
   username: string;
   password: string;
-  constructor(public http: Http) {
+  constructor(public http: Http, nav: NavController) {
+    this.nav = nav;
 
   }
   logError(err) {
@@ -21,7 +23,6 @@ export class Page1 {
     }
   }
   setToken = function(credentials) {
-    console.log(credentials);
     localStorage.setItem('token', btoa(credentials.email + ':' + credentials.password)); // jshint ignore:line
   }
   getToken = function() {
@@ -29,7 +30,6 @@ export class Page1 {
   }
   submit(email, password) {
     let creds = JSON.stringify({ email: email, password: password});
-    console.log(creds);
 
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
@@ -45,6 +45,7 @@ export class Page1 {
         },
         err => this.logError(err),
         () => console.log('Authentication Complete')
+        this.nav.push(Page2);
         );
   }
 }
