@@ -1,6 +1,6 @@
 import {App, Platform} from 'ionic/ionic';
 import {TabsPage} from './pages/tabs/tabs';
-
+import {Page1} from './pages/page1/page1';
 
 @App({
   template: '<ion-nav [root]="rootPage"></ion-nav>',
@@ -8,7 +8,8 @@ import {TabsPage} from './pages/tabs/tabs';
 })
 export class MyApp {
   constructor(platform: Platform) {
-    this.rootPage = TabsPage;
+    let isLoggedIn = this.isAuthenticated()
+    this.rootPage = isLoggedIn ? TabsPage : Page1;
 
     platform.ready().then(() => {
       // The platform is now ready. Note: if this callback fails to fire, follow
@@ -27,4 +28,14 @@ export class MyApp {
       // StatusBar.setStyle(StatusBar.LIGHT_CONTENT)
     });
   }
+  isAuthenticated = function() {
+    token = this.getToken()
+    if (token)
+      return true;
+    return false;
+  }
+  getToken = function() {
+    return localStorage.getItem('token');
+  }
+
 }
