@@ -1,11 +1,9 @@
 import {Page, NavController} from 'ionic/ionic';
 import { Http, Headers, HTTP_PROVIDERS } from 'angular2/http';
-import { CORE_DIRECTIVES, FORM_DIRECTIVES } from 'angular2/common';
 import {TabsPage} from '../tabs/tabs';
 
 @Page({
   templateUrl: 'build/pages/page1/page1.html',
-  directives: [ CORE_DIRECTIVES, FORM_DIRECTIVES ],
 })
 export class Page1 {
   username: string;
