@@ -7,6 +7,7 @@ import { Http, Headers, HTTP_PROVIDERS } from 'angular2/http';
 export class Page2 {
   constructor(http: Http) {
     this.http = http;
+    this.recipes = [];
     this.getRecipes()
   }
   logError(err) {
@@ -23,10 +24,9 @@ export class Page2 {
         headers: authHeader
         })
       .subscribe(
-          data => this.recipes= data,
+          data => this.recipes= JSON.parse(data._body),
           err => this.logError(err),
-          () => console.log(this.recipes._body)
+          () => console.log('Recipes Gathered');
           );
-
   }
 }
