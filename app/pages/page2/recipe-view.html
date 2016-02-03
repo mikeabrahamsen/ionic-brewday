@@ -1,0 +1,28 @@
+<ion-navbar *navbar>
+  <ion-title>
+      {{recipe.name}}
+  </ion-title>
+</ion-navbar>
+<ion-content class="page2">
+    <ion-list>
+        <ion-list-header> Grains </ion-list-header>
+            <ion-item *ngFor="#grain of grains">
+            <ion-icon name="beer" item-left></ion-icon>
+                <h2>{{grain.name}}</h2>
+                <p>Amount: {{grain.amount}} lbs </p>
+            </ion-item>
+        <ion-list-header> Hops </ion-list-header>
+            <ion-item *ngFor="#hop of hops">
+            <ion-icon name="leaf" item-left></ion-icon>
+                {{hop.name}}
+                <p>
+                Amount: {{hop.amount}} oz
+                </p>
+                <h2 item-right>
+                <ion-icon name="time" item-center></ion-icon>
+                {{hop.time}} min
+                </h2>
+            </ion-item>
+        </ion-list>
+
+</ion-content>

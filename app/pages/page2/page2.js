@@ -1,12 +1,14 @@
-import {Page} from 'ionic/ionic';
+import {Page, NavController} from 'ionic/ionic';
 import { Http, Headers, HTTP_PROVIDERS } from 'angular2/http';
+import {RecipeView} from './recipe-view';
 
 @Page({
   templateUrl: 'build/pages/page2/page2.html'
 })
 export class Page2 {
-  constructor(http: Http) {
+  constructor(http: Http, nav: NavController) {
     this.http = http;
+    this.nav = nav;
     this.recipes = [];
     this.getRecipes()
   }
@@ -28,5 +30,9 @@ export class Page2 {
           err => this.logError(err),
           () => console.log('Recipes Gathered');
           );
+  }
+  recipeSelected(recipe){
+    this.recipe = recipe;
+    this.nav.push(RecipeView, {recipe: recipe});
   }
 }
