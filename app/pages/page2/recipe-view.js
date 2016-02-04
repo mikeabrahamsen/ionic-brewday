@@ -14,6 +14,13 @@ export class RecipeView{
     this.getGrains();
     this.getHops();
   }
+  grainTotal = function(){
+    let total = 0;
+    for (var grain of this.grains){
+      total += grain.amount;
+    }
+    return total;
+  }
   getGrains = function(){
     var token = localStorage.getItem('token');
     var authHeader = new Headers();
