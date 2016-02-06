@@ -5,6 +5,10 @@
 </ion-navbar>
 
 <ion-content class="page2">
+    <button secondary full>
+        <ion-icon name="add"></ion-icon> 
+        Add New Recipe
+    </button>
 <ion-list>
   <ion-item *ngFor="#recipe of recipes" (click)="recipeSelected(recipe)">
     {{recipe.name}}
