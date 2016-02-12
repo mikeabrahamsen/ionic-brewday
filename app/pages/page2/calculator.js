@@ -19,9 +19,6 @@ export class CalculatorService{
     this.grainBill = 0;
     this.grainTemp = 65;
   }
-  team(){
-    console.log("team");
-  }
   calculateWaterVol(grainBill){
     var batchSize = this.details.batchSize;
     var bt = this.details.boilTime;
