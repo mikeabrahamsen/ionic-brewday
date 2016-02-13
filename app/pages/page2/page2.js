@@ -1,6 +1,7 @@
 import {Page, NavController} from 'ionic/ionic';
 import { Http, Headers, HTTP_PROVIDERS } from 'angular2/http';
 import {RecipeView} from './recipe-view';
+import {Page3} from '../page3/page3';
 
 @Page({
   templateUrl: 'build/pages/page2/page2.html'
@@ -34,5 +35,8 @@ export class Page2 {
   recipeSelected(recipe){
     this.recipe = recipe;
     this.nav.push(RecipeView, {recipe: recipe});
+  }
+  newRecipe(){
+    this.nav.push(Page3);
   }
 }
