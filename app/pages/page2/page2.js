@@ -1,7 +1,7 @@
 import {Page, NavController} from 'ionic/ionic';
 import { Http, Headers, HTTP_PROVIDERS } from 'angular2/http';
 import {RecipeView} from './recipe-view';
-import {Page3} from '../page3/page3';
+import {Page3} from './create/recipe-create';
 
 @Page({
   templateUrl: 'build/pages/page2/page2.html'
