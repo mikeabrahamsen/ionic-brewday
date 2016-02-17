@@ -1,5 +1,5 @@
 import {Page} from 'ionic/ionic';
-import {Page2} from '../page2/page2';
+import {Page2} from '../recipes/recipes';
 
 
 @Page({
