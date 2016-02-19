@@ -1,6 +1,6 @@
 import {App, Platform} from 'ionic/ionic';
 import {TabsPage} from './pages/tabs/tabs';
-import {Page1} from './pages/page1/page1';
+import {Login} from './pages/session/session';
 
 @App({
   template: '<ion-nav [root]="rootPage"></ion-nav>',
@@ -9,7 +9,7 @@ import {Page1} from './pages/page1/page1';
 export class MyApp {
   constructor(platform: Platform) {
     let isLoggedIn = this.isAuthenticated()
-    this.rootPage = isLoggedIn ? TabsPage : Page1;
+    this.rootPage = isLoggedIn ? TabsPage : Login;
 
     platform.ready().then(() => {
       // The platform is now ready. Note: if this callback fails to fire, follow

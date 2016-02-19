@@ -3,9 +3,9 @@ import { Http, Headers, HTTP_PROVIDERS } from 'angular2/http';
 import {TabsPage} from '../tabs/tabs';
 
 @Page({
-  templateUrl: 'build/pages/page1/page1.html',
+  templateUrl: 'build/pages/session/session-create.html',
 })
-export class Page1 {
+export class Login{
   username: string;
   password: string;
   constructor(http: Http, nav: NavController) {
