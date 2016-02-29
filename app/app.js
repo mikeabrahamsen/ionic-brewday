@@ -1,4 +1,4 @@
-import {App, Platform} from 'ionic/ionic';
+import {App, Platform} from 'ionic-framework/ionic';
 import {TabsPage} from './pages/tabs/tabs';
 import {Login} from './pages/session/session';
 
@@ -7,8 +7,16 @@ import {Login} from './pages/session/session';
   config: {} // http://ionicframework.com/docs/v2/api/config/Config/
 })
 export class MyApp {
-  constructor(platform: Platform) {
-    let isLoggedIn = this.isAuthenticated()
+  static get parameters(){
+    return [[Platform]];
+  }
+  constructor(platform) {
+    let isLoggedIn = false;
+
+    let token = localStorage.getItem('token');
+    if (token)
+      isLoggedIn = true;
+
     this.rootPage = isLoggedIn ? TabsPage : Login;
 
     platform.ready().then(() => {
@@ -27,15 +35,6 @@ export class MyApp {
       // good for dark backgrounds and light text:
       // StatusBar.setStyle(StatusBar.LIGHT_CONTENT)
     });
-  }
-  isAuthenticated = function() {
-    token = this.getToken()
-    if (token)
-      return true;
-    return false;
-  }
-  getToken = function() {
-    return localStorage.getItem('token');
-  }
 
+  }
 }

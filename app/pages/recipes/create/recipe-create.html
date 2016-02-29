@@ -6,11 +6,18 @@
 </ion-navbar>
 
 <ion-content class="new-recipe">
+    <form [ngFormModel]="recipeCreateForm" (submit)="createRecipe($event)">
     <ion-list>
         <ion-item>
             <ion-label floating>Recipe Name</ion-label>
-            <ion-input type="text"></ion-input>
+            <ion-input type="text" [(ngModel)]="name" value=""></ion-input>
+        </ion-item>
+
+        <ion-item>
+            <ion-label floating>Beer Type</ion-label>
+            <ion-input type="text" [(ngModel)]="beerType" value=""></ion-input>
         </ion-item>
     </ion-list>
+    </form>
 
 </ion-content>

@@ -1,4 +1,4 @@
-import {Page, NavController} from 'ionic/ionic';
+import {Page, NavController} from 'ionic-framework/ionic';
 import { Http, Headers, HTTP_PROVIDERS } from 'angular2/http';
 import {TabsPage} from '../tabs/tabs';
 
@@ -6,16 +6,14 @@ import {TabsPage} from '../tabs/tabs';
   templateUrl: 'build/pages/session/session-create.html',
 })
 export class Login{
-  username: string;
-  password: string;
-  constructor(http: Http, nav: NavController) {
+  constructor(http, nav) {
     this.nav = nav;
     this.http = http;
   }
   logError(err) {
     console.error('Error: ' + err);
   }
-  setToken = function(credentials) {
+  setToken(credentials) {
     localStorage.setItem('token', btoa(credentials.email + ':' + credentials.password)); // jshint ignore:line
   }
   submit(email, password) {
@@ -32,7 +30,7 @@ export class Login{
           this.setToken(JSON.parse(creds));
         },
         err => this.logError(err),
-        () => this.nav.push(TabsPage);
+        tab => this.nav.push(TabsPage)
         );
   }
 }

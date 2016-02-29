@@ -1,13 +1,16 @@
-import {Page, NavController} from 'ionic/ionic';
+import {Page, NavController} from 'ionic-framework/ionic';
 import { Http, Headers, HTTP_PROVIDERS } from 'angular2/http';
 import {RecipeView} from './recipe-view';
 import {Page3} from './create/recipe-create';
 
 @Page({
-  templateUrl: 'build/pages/page2/page2.html'
+  templateUrl: 'build/pages/recipes/recipe-list.html'
 })
 export class Page2 {
-  constructor(http: Http, nav: NavController) {
+  static get parameters(){
+    return [[Http], [NavController]];
+  }
+  constructor(http, nav) {
     this.http = http;
     this.nav = nav;
     this.recipes = [];
@@ -28,8 +31,7 @@ export class Page2 {
         })
       .subscribe(
           data => this.recipes= JSON.parse(data._body),
-          err => this.logError(err),
-          () => console.log('Recipes Gathered');
+          err => this.logError(err)
           );
   }
   recipeSelected(recipe){
