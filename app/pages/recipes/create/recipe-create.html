@@ -3,10 +3,13 @@
   <ion-title>
       Create a new recipe
   </ion-title>
+<ion-buttons end>
+    <button item-right>Save
+    </button>
+  </ion-buttons>
 </ion-navbar>
 
 <ion-content class="new-recipe">
-    <form [ngFormModel]="recipeCreateForm" (submit)="createRecipe($event)">
     <ion-list>
         <ion-item>
             <ion-label floating>Recipe Name</ion-label>
@@ -17,7 +20,21 @@
             <ion-label floating>Beer Type</ion-label>
             <ion-input type="text" [(ngModel)]="beerType" value=""></ion-input>
         </ion-item>
+        <ion-item>
+            <ion-label floating>Batch Size</ion-label>
+            <ion-input type="number" step=".5" [(ngModel)]="batchSize" value=""></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label floating>Boil Time</ion-label>
+            <ion-input type="number" [(ngModel)]="boilTime" value=""></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label floating>Mash Thickness</ion-label>
+            <ion-input type="number" step=".1" [(ngModel)]="mashThickness" value=""></ion-input>
+        </ion-item>
+
     </ion-list>
-    </form>
+        <button secondary full (click)="navGrains()">Next</button>
+
 
 </ion-content>

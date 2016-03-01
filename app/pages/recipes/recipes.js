@@ -1,7 +1,7 @@
 import {Page, NavController} from 'ionic-framework/ionic';
 import { Http, Headers, HTTP_PROVIDERS } from 'angular2/http';
 import {RecipeView} from './recipe-view';
-import {Page3} from './create/recipe-create';
+import {RecipeCreate} from './create/recipe-create';
 
 @Page({
   templateUrl: 'build/pages/recipes/recipe-list.html'
@@ -39,6 +39,6 @@ export class Page2 {
     this.nav.push(RecipeView, {recipe: recipe});
   }
   newRecipe(){
-    this.nav.push(Page3);
+    this.nav.push(RecipeCreate);
   }
 }

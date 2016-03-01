@@ -1,11 +1,21 @@
-import {Page} from 'ionic-framework/ionic';
-
+import {Page, NavController} from 'ionic-framework/ionic';
+import {Additions} from '../additions/additions';
 
 @Page({
-  templateUrl: 'build/pages/page3/page3.html'
+  templateUrl: 'build/pages/recipes/create/recipe-create.html'
 })
-export class Page3 {
-  constructor() {
-
+export class RecipeCreate{
+  static get parameters(){
+    return [NavController];
+  }
+  constructor(nav) {
+    this.nav = nav;
+  }
+  navGrains(){
+    this.nav.push(Additions);
+  }
+  saveRecipe(){
+    console.log(this.name);
+    console.log(this.beerType);
   }
 }
