@@ -1,6 +1,6 @@
 <ion-navbar *navbar>
   <ion-title>
-      Add grains
+      Add hops
   </ion-title>
 <ion-buttons end>
     <button item-right>Save
@@ -11,9 +11,9 @@
 <ion-content class="recipe-additions">
 <ion-list>
   <ion-item>
-  <ion-label>Grains</ion-label>
+  <ion-label>Hops</ion-label>
   <ion-select cancelText="Cancel" okText="Select">
-      <ion-option *ngFor="#grain of grainList" value="grain.name">{{grain.region}} - {{grain.name}}</ion-option>
+      <ion-option *ngFor="#hop of hopList" value="hop.name">{{hop.name}}</ion-option>
   </ion-select>
 </ion-item>
 </ion-list>

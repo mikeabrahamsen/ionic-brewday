@@ -1,0 +1,21 @@
+<ion-navbar *navbar>
+  <ion-title>
+      Add grains
+  </ion-title>
+<ion-buttons end>
+    <button item-right>Save
+    </button>
+  </ion-buttons>
+</ion-navbar>
+
+<ion-content class="recipe-additions">
+<ion-list>
+  <ion-item>
+  <ion-label>Grains</ion-label>
+  <ion-select cancelText="Cancel" okText="Select">
+      <ion-option *ngFor="#grain of grainList" value="grain.name">{{grain.region}} - {{grain.name}}</ion-option>
+  </ion-select>
+</ion-item>
+</ion-list>
+        <button secondary full (click)="navHops()">Next</button>
+</ion-content>
