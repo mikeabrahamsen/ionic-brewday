@@ -36,7 +36,7 @@ export class Grains{
       this.grains.push(newAddition);
   }
   removeAddition(addition){
-    console.log("remove");
+    this.grains.splice(this.grains.indexOf(addition), 1)
   }
 
   navHops(){
