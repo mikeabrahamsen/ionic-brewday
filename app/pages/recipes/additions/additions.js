@@ -31,6 +31,13 @@ export class Grains{
       this.grains.push(newAddition);
     }
   }
+  addNewGrain(){
+      var newAddition = {'recipe_id': undefined, 'brew_stage': 0, amount: 0};
+      this.grains.push(newAddition);
+  }
+  removeAddition(addition){
+    console.log("remove");
+  }
 
   navHops(){
     this.nav.push(Hops);
