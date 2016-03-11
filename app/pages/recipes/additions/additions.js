@@ -11,6 +11,10 @@ export class Grains{
   constructor(http, nav) {
     this.http = http;
     this.nav = nav;
+    this.original_additions = [];
+    this.options = {grains: [], hops: []};
+    this.grains = []
+    this.setDefaultGrains();
     this.getGrains();
   }
   getGrains() {
@@ -20,6 +24,12 @@ export class Grains{
           data => this.grainList = JSON.parse(data._body),
           err => this.logError(err)
           );
+  }
+  setDefaultGrains(){
+    if (this.original_additions.length < 1){
+      var newAddition = {'recipe_id': undefined, 'brew_stage': 0, amount: 0};
+      this.grains.push(newAddition);
+    }
   }
 
   navHops(){

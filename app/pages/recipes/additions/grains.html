@@ -10,11 +10,11 @@
 
 <ion-content class="recipe-additions">
 <ion-list>
-  <ion-item>
-  <ion-label>Grains</ion-label>
-  <ion-select cancelText="Cancel" okText="Select">
-      <ion-option *ngFor="#grain of grainList" value="grain.name">{{grain.region}} - {{grain.name}}</ion-option>
+  <ion-item *ngFor="#grain of grains">
+  <ion-select [(ngModel)]="grain.addition_id" cancelText="Cancel" okText="Select"  item-left>
+      <ion-option *ngFor="#option of grainList" value="option.name">{{option.region}} - {{option.name}}</ion-option>
   </ion-select>
+    <ion-input placeholder="Enter Weight" type="number" step=".5" [(ngModel)]="weight" value="" item-right></ion-input>
 </ion-item>
 </ion-list>
         <button secondary full (click)="navHops()">Next</button>
