@@ -9,16 +9,16 @@
 </ion-navbar>
 
 <ion-content class="recipe-additions">
-<ion-list>
-  <ion-item>
-  <ion-label>Hops</ion-label>
-  <ion-select cancelText="Cancel" okText="Select">
-      <ion-option *ngFor="#hop of hopList" value="hop.name">{{hop.name}}</ion-option>
-  </ion-select>
-</ion-item>
-<ion-item>
-    <ion-label floating>Weight</ion-label>
-    <ion-input type="number" step=".5" [(ngModel)]="weight" value=""></ion-input>
-</ion-item>
-</ion-list>
+    <ion-list>
+        <ion-item *ngFor="#hop of hops">
+            <ion-select [(ngModel)]="hop.addition_id" cancelText="Cancel" okText="Select" item-left>
+                <ion-option *ngFor="#option of hopList" [value]="option.name">{{option.name}}</ion-option>
+            </ion-select>
+            <ion-input placeholder="Enter Weight" type="number" step=".5" [(ngModel)]="hop.amount" value="" item-right></ion-input>
+            <button type="button" [hidden]="hops.length <= 1 && !readOnly" item-right (click)="removeAddition(hop)">X</button>
+        </ion-item>
+        <ion-item>
+            <button type="button" (click)="addNewHop()">Add Another</button>
+        </ion-item>
+    </ion-list>
 </ion-content>

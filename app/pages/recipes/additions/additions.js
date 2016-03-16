@@ -12,8 +12,9 @@ export class Grains{
     this.http = http;
     this.nav = nav;
     this.original_additions = [];
-    this.options = {grains: [], hops: []};
     this.grains = []
+    this.grainList = [];
+
     this.setDefaultGrains();
     this.getGrains();
   }
@@ -54,6 +55,11 @@ export class Hops{
   constructor(http, nav) {
     this.http = http;
     this.nav = nav;
+    this.hopList = [];
+    this.hops = [];
+    this.original_additions = [];
+
+    this.setDefaultHops();
     this.getHops();
   }
   getHops() {
@@ -63,5 +69,19 @@ export class Hops{
           data => this.hopList = JSON.parse(data._body),
           err => this.logError(err)
           );
+  }
+
+  setDefaultHops(){
+    if (this.original_additions.length < 1){
+      var newAddition = {'recipe_id': undefined, 'brew_stage': 0, amount: 0};
+      this.hops.push(newAddition);
+    }
+  }
+  addNewHop(){
+      var newAddition = {'recipe_id': undefined, 'brew_stage': 0, amount: 0};
+      this.hops.push(newAddition);
+  }
+  removeAddition(addition){
+    this.hops.splice(this.hops.indexOf(addition), 1)
   }
 }
