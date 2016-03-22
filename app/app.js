@@ -1,4 +1,4 @@
-import {App, Platform} from 'ionic-framework/ionic';
+import {App, Platform} from 'ionic-angular';
 import {TabsPage} from './pages/tabs/tabs';
 import {Login} from './pages/session/session';
 
