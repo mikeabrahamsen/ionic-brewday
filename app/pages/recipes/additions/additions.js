@@ -1,4 +1,4 @@
-import {Page, NavController, NavParams} from 'ionic-framework/ionic';
+import {Page, NavController, NavParams} from 'ionic-angular';
 import { Http, Headers, HTTP_PROVIDERS } from 'angular2/http';
 
 @Page({
