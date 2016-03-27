@@ -10,12 +10,15 @@ export class RecipeCreate{
   }
   constructor(nav) {
     this.nav = nav;
+    this.recipe = {};
   }
   navGrains(){
-    this.nav.push(Grains);
+    this.createRecipe()
+    this.nav.push(Grains, {recipe: this.recipe});
   }
-  saveRecipe(){
-    console.log(this.name);
-    console.log(this.beerType);
+  createRecipe(){
+    this.recipe.name = this.name;
+    this.recipe.beerType = this.beerType;
+    this.recipe.equipment_id = 1; // not implemented
   }
 }
