@@ -12,7 +12,7 @@
     <ion-list>
         <ion-item *ngFor="#grain of grains">
             <ion-select [(ngModel)]="grain.addition_id" cancelText="Cancel" okText="Select"  item-left>
-                <ion-option *ngFor="#option of grainList" [value]="option.name">{{option.region}} - {{option.name}}</ion-option>
+                <ion-option *ngFor="#option of grainList" [value]="option.id">{{option.region}} - {{option.name}}</ion-option>
             </ion-select>
             <ion-input placeholder="Enter Weight" type="number" step=".5" [(ngModel)]="grain.amount" value="" item-right></ion-input>
             <button type="button" [hidden]="grains.length <= 1 && !readOnly" item-right (click)="removeAddition(grain)">X</button>

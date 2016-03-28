@@ -29,12 +29,12 @@ export class Grains{
   }
   setDefaultGrains(){
     if (this.original_additions.length < 1){
-      var newAddition = {'recipe_id': undefined, 'brew_stage': 0, amount: 0};
+      var newAddition = {'recipe_id': undefined, 'brew_stage': 0, amount: 0, time: 0};
       this.grains.push(newAddition);
     }
   }
   addNewGrain(){
-      var newAddition = {'recipe_id': undefined, 'brew_stage': 0, amount: 0};
+      var newAddition = {'recipe_id': undefined, 'brew_stage': 0, amount: 0, time: 0};
       this.grains.push(newAddition);
   }
   removeAddition(addition){
@@ -43,6 +43,7 @@ export class Grains{
 
   navHops(){
     this.recipe.grains = this.grains;
+    console.log(this.grains);
     this.nav.push(Hops, {recipe: this.recipe});
   }
 }
@@ -106,8 +107,32 @@ export class Hops{
         headers: authHeader
         })
       .subscribe(
-          data => this.recipe = data,
+          data => this.submitAdditions(data._body),
           err => console.log(err)
           );
+  }
+  submitAdditions(recipe){
+    recipe = JSON.parse(recipe);
+    let http = this.http;
+    this.recipe.grains.forEach(function(grain){
+        grain.recipe_id = recipe.id;
+        grain = JSON.stringify(grain);
+        console.log(grain);
+
+        var token = localStorage.getItem('token');
+        var authHeader = new Headers();
+        if(token) {
+          authHeader.append('Authorization', 'Basic ' + token);
+        }
+        authHeader.append('Content-Type', 'application/json');
+        http.post('http://brewday.carbonrail.com/api/v1/recipes/' + recipe.id + '/grains',
+            grain, {
+            headers: authHeader
+            })
+          .subscribe(
+              data => console.log(data),
+              err => console.log(err)
+              );
+        })
   }
 }
