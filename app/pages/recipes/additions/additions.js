@@ -29,12 +29,12 @@ export class Grains{
   }
   setDefaultGrains(){
     if (this.original_additions.length < 1){
-      var newAddition = {'recipe_id': undefined, 'brew_stage': 0, amount: 0, time: 0};
+      var newAddition = {'recipe_id': undefined, 'brew_stage': 0, amount: 0};
       this.grains.push(newAddition);
     }
   }
   addNewGrain(){
-      var newAddition = {'recipe_id': undefined, 'brew_stage': 0, amount: 0, time: 0};
+      var newAddition = {'recipe_id': undefined, 'brew_stage': 0, amount: 0};
       this.grains.push(newAddition);
   }
   removeAddition(addition){
