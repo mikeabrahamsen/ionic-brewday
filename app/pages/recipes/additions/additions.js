@@ -134,5 +134,26 @@ export class Hops{
               err => console.log(err)
               );
         })
+
+    this.recipe.hops.forEach(function(hop){
+        hop.recipe_id = recipe.id;
+        hop = JSON.stringify(hop);
+        console.log(hop);
+
+        var token = localStorage.getItem('token');
+        var authHeader = new Headers();
+        if(token) {
+          authHeader.append('Authorization', 'Basic ' + token);
+        }
+        authHeader.append('Content-Type', 'application/json');
+        http.post('http://brewday.carbonrail.com/api/v1/recipes/' + recipe.id + '/hops',
+            hop, {
+            headers: authHeader
+            })
+          .subscribe(
+              data => console.log(data),
+              err => console.log(err)
+              );
+        })
   }
 }

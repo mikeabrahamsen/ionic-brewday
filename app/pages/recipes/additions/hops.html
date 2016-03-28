@@ -12,7 +12,7 @@
     <ion-list>
         <ion-item *ngFor="#hop of hops">
             <ion-select [(ngModel)]="hop.addition_id" cancelText="Cancel" okText="Select" item-left>
-                <ion-option *ngFor="#option of hopList" [value]="option.name">{{option.name}}</ion-option>
+                <ion-option *ngFor="#option of hopList" [value]="option.id">{{option.name}}</ion-option>
             </ion-select>
             <ion-input placeholder="Enter Weight" type="number" step=".5" [(ngModel)]="hop.amount" value="" item-right></ion-input>
             <button type="button" [hidden]="hops.length <= 1 && !readOnly" item-right (click)="removeAddition(hop)">X</button>
