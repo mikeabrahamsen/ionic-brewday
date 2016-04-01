@@ -1,4 +1,4 @@
-import {Page, NavController} from 'ionic-angular';
+import {Page, NavController, NavParams} from 'ionic-angular';
 import {Grains} from '../additions/additions';
 
 @Page({
@@ -6,11 +6,12 @@ import {Grains} from '../additions/additions';
 })
 export class RecipeCreate{
   static get parameters(){
-    return [NavController];
+    return [[NavController], [NavParams]];
   }
-  constructor(nav) {
+  constructor(nav, navParams) {
     this.nav = nav;
-    this.recipe = {};
+    this.recipe = navParams.get('recipe');
+    console.log(this.recipe);
   }
   navGrains(){
     this.createRecipe()

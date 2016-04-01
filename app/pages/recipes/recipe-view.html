@@ -2,18 +2,22 @@
   <ion-title>
       {{recipe.name}}
   </ion-title>
+<ion-buttons end>
+    <button (click)="editRecipe()" item-right>Edit
+    </button>
+  </ion-buttons>
 </ion-navbar>
 <ion-content class="page2">
     <h3>Total Grain Bill: {{grainTotal()}} lbs</h3>
     <ion-list>
         <ion-list-header> Grains </ion-list-header>
-            <ion-item *ngFor="#grain of grains">
+            <ion-item *ngFor="#grain of recipe.grains">
             <ion-icon name="beer" item-left></ion-icon>
                 <h2>{{grain.name}}</h2>
                 <p>Amount: {{grain.amount}} lbs </p>
             </ion-item>
         <ion-list-header> Hops </ion-list-header>
-            <ion-item *ngFor="#hop of hops">
+            <ion-item *ngFor="#hop of recipe.hops">
             <ion-icon name="leaf" item-left></ion-icon>
                 {{hop.name}}
                 <p>

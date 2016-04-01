@@ -1,6 +1,7 @@
 import {Page, NavController, NavParams} from 'ionic-angular';
 import { Http, Headers, HTTP_PROVIDERS } from 'angular2/http';
 import { CalculatorService } from './calculator';
+import {RecipeCreate} from './create/recipe-create';
 
 
 @Page({
@@ -44,7 +45,7 @@ export class RecipeView{
         headers: authHeader
         })
       .subscribe(
-          data => this.grains = JSON.parse(data._body),
+          data => this.recipe.grains = JSON.parse(data._body),
           err => this.logError(err)
           );
   }
@@ -55,10 +56,13 @@ export class RecipeView{
       authHeader.append('Authorization', 'Basic ' + token);
     }
     this.http.get('http://brewday.carbonrail.com/api/v1/recipes/' + this.recipe.id + "/hops", {
-        headers: authHeader
-        })
-      .subscribe(
-          data => this.hops= JSON.parse(data._body),
-          err => this.logError(err)
-          )}
+      headers: authHeader
+    })
+    .subscribe(
+      data => this.recipe.hops= JSON.parse(data._body),
+        err => this.logError(err)
+    )}
+    editRecipe(){
+      this.nav.push(RecipeCreate, {recipe: this.recipe});
+    }
 }

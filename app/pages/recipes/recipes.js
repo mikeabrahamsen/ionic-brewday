@@ -39,6 +39,6 @@ export class Page2 {
     this.nav.push(RecipeView, {recipe: recipe});
   }
   newRecipe(){
-    this.nav.push(RecipeCreate);
+    this.nav.push(RecipeCreate, {recipe: {}});
   }
 }
