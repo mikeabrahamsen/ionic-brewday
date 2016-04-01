@@ -15,6 +15,7 @@ export class Grains{
     this.grains = []
     this.grainList = [];
     this.recipe = navParams.get('recipe');
+    this.original_grains = this.recipe.grains;
 
     this.setDefaultGrains();
     this.getGrains();
@@ -28,9 +29,12 @@ export class Grains{
           );
   }
   setDefaultGrains(){
-    if (this.original_additions.length < 1){
+    if (this.original_grains.length < 1){
       var newAddition = {'recipe_id': undefined, 'brew_stage': 0, amount: 0};
       this.grains.push(newAddition);
+    }
+    else{
+      this.grains = this.original_grains;
     }
   }
   addNewGrain(){
@@ -60,8 +64,8 @@ export class Hops{
     this.nav = nav;
     this.hopList = [];
     this.hops = [];
-    this.original_additions = [];
     this.recipe = navParams.get('recipe');
+    this.original_hops = this.recipe.hops;
 
     this.setDefaultHops();
     this.getHops();
@@ -76,9 +80,12 @@ export class Hops{
   }
 
   setDefaultHops(){
-    if (this.original_additions.length < 1){
+    if (this.original_hops.length < 1){
       var newAddition = {'recipe_id': undefined, 'brew_stage': 0, amount: 0};
       this.hops.push(newAddition);
+    }
+    else{
+      this.hops = this.original_hops;
     }
   }
   addNewHop(){
@@ -92,7 +99,7 @@ export class Hops{
     this.recipe.hops = this.hops;
     let newRecipe = JSON.stringify({
       name: this.recipe.name,
-      beer_type: this.recipe.beerType,
+      beer_type: this.recipe.beer_type,
       equipment_id: this.recipe.equipment_id
     })
 
