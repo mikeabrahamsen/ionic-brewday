@@ -18,19 +18,19 @@
 
         <ion-item>
             <ion-label floating>Beer Type</ion-label>
-            <ion-input type="text" [(ngModel)]="beerType" value=""></ion-input>
+            <ion-input type="text" [(ngModel)]="recipe.beer_type" value=""></ion-input>
         </ion-item>
         <ion-item>
             <ion-label floating>Batch Size</ion-label>
-            <ion-input type="number" step=".5" [(ngModel)]="batchSize" value=""></ion-input>
+            <ion-input type="number" step=".5" [(ngModel)]="recipe.batch_size" value=""></ion-input>
         </ion-item>
         <ion-item>
             <ion-label floating>Boil Time</ion-label>
-            <ion-input type="number" [(ngModel)]="boilTime" value=""></ion-input>
+            <ion-input type="number" [(ngModel)]="boil_time" value=""></ion-input>
         </ion-item>
         <ion-item>
             <ion-label floating>Mash Thickness</ion-label>
-            <ion-input type="number" step=".1" [(ngModel)]="mashThickness" value=""></ion-input>
+            <ion-input type="number" step=".1" [(ngModel)]="mash_thickness" value=""></ion-input>
         </ion-item>
 
     </ion-list>

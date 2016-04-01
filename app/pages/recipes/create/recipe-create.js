@@ -11,6 +11,9 @@ export class RecipeCreate{
   constructor(nav, navParams) {
     this.nav = nav;
     this.recipe = navParams.get('recipe');
+    if(!this.recipe){
+      this.recipe = {id: undefined}
+    }
     console.log(this.recipe);
   }
   navGrains(){
@@ -19,7 +22,7 @@ export class RecipeCreate{
   }
   createRecipe(){
     this.recipe.name = this.name;
-    this.recipe.beerType = this.beerType;
+    this.recipe.beer_type = this.beer_type;
     this.recipe.equipment_id = 1; // not implemented
   }
 }
