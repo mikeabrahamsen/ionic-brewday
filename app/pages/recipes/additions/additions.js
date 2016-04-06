@@ -1,23 +1,38 @@
 import {Page, NavController, NavParams} from 'ionic-angular';
 import { Http, Headers, HTTP_PROVIDERS } from 'angular2/http';
 
+export class AdditionService{
+  /* Create a blank addition if there are none in recipe */
+  setDefaultAdditions(recipe, additionName){
+    if (typeof(recipe[additionName]) === 'undefined' || recipe[additionName].length < 1){
+      var newAddition = {'recipe_id': undefined, 'brew_stage': 0, amount: 0};
+      this.additions = [newAddition];
+    }
+    else{
+      this.additions = recipe[additionName];
+    }
+    return this.additions;
+  }
+
+}
 @Page({
-  templateUrl: 'build/pages/recipes/additions/grains.html'
+  templateUrl: 'build/pages/recipes/additions/grains.html',
+  providers: [AdditionService]
 })
 export class Grains{
   static get parameters(){
-    return [[Http], [NavController], [NavParams]];
+    return [[Http], [NavController], [NavParams], [AdditionService]];
   }
-  constructor(http, nav, navParams) {
+  constructor(http, nav, navParams, additionService) {
     this.http = http;
     this.nav = nav;
-    this.original_additions = [];
     this.grains = []
     this.grainList = [];
     this.recipe = navParams.get('recipe');
     this.original_grains = this.recipe.grains;
 
-    this.setDefaultGrains();
+    this.grains = additionService.setDefaultAdditions(this.recipe, 'grains');
+    console.log(this.grains);
     this.getGrains();
   }
   getGrains() {
@@ -27,15 +42,6 @@ export class Grains{
           data => this.grainList = JSON.parse(data._body),
           err => this.logError(err)
           );
-  }
-  setDefaultGrains(){
-    if (this.original_grains.length < 1){
-      var newAddition = {'recipe_id': undefined, 'brew_stage': 0, amount: 0};
-      this.grains.push(newAddition);
-    }
-    else{
-      this.grains = this.original_grains;
-    }
   }
   addNewGrain(){
       var newAddition = {'recipe_id': undefined, 'brew_stage': 0, amount: 0};
@@ -53,13 +59,14 @@ export class Grains{
 }
 
 @Page({
-  templateUrl: 'build/pages/recipes/additions/hops.html'
+  templateUrl: 'build/pages/recipes/additions/hops.html',
+  providers: [AdditionService]
 })
 export class Hops{
   static get parameters(){
-    return [[Http], [NavController], [NavParams]];
+    return [[Http], [NavController], [NavParams], [AdditionService]];
   }
-  constructor(http, nav, navParams) {
+  constructor(http, nav, navParams, additionService) {
     this.http = http;
     this.nav = nav;
     this.hopList = [];
@@ -67,7 +74,7 @@ export class Hops{
     this.recipe = navParams.get('recipe');
     this.original_hops = this.recipe.hops;
 
-    this.setDefaultHops();
+    this.hops = additionService.setDefaultAdditions(this.recipe, 'hops');
     this.getHops();
   }
   getHops() {
@@ -79,15 +86,6 @@ export class Hops{
           );
   }
 
-  setDefaultHops(){
-    if (this.original_hops.length < 1){
-      var newAddition = {'recipe_id': undefined, 'brew_stage': 0, amount: 0};
-      this.hops.push(newAddition);
-    }
-    else{
-      this.hops = this.original_hops;
-    }
-  }
   addNewHop(){
       var newAddition = {'recipe_id': undefined, 'brew_stage': 0, amount: 0};
       this.hops.push(newAddition);
