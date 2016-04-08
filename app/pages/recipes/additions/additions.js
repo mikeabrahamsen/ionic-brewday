@@ -2,6 +2,20 @@ import {Page, NavController, NavParams} from 'ionic-angular';
 import { Http, Headers, HTTP_PROVIDERS } from 'angular2/http';
 
 export class AdditionService{
+  static get parameters(){
+    return [[Http], [NavController], [NavParams]];
+  }
+  constructor(http, nav, navParams){
+    this.http = http;
+    this.nav = nav;
+    this.baseUrl = 'http://brewday.carbonrail.com/api/v1/recipes'
+    var token = localStorage.getItem('token');
+    this.authHeader = new Headers();
+    if(token) {
+      this.authHeader.append('Authorization', 'Basic ' + token);
+    }
+    this.authHeader.append('Content-Type', 'application/json');
+  }
   /* Create a blank addition if there are none in recipe */
   setDefaultAdditions(recipe, additionName){
     if (typeof(recipe[additionName]) === 'undefined' || recipe[additionName].length < 1){
@@ -15,19 +29,14 @@ export class AdditionService{
   }
 
   saveRecipe(recipe, grains, hops){
+    let baseUrl = this.baseUrl;
+    let authHeader = this.authHeader;
     let newRecipe = JSON.stringify({
-      name: this.recipe.name,
-      beer_type: this.recipe.beer_type,
-      equipment_id: this.recipe.equipment_id
+      name: recipe.name,
+      beer_type: recipe.beer_type,
+      equipment_id: recipe.equipment_id
     })
-
-    var token = localStorage.getItem('token');
-    var authHeader = new Headers();
-    if(token) {
-      authHeader.append('Authorization', 'Basic ' + token);
-    }
-    authHeader.append('Content-Type', 'application/json');
-    this.http.post('http://brewday.carbonrail.com/api/v1/recipes',
+    this.http.post(baseUrl,
         newRecipe, {
         headers: authHeader
         })
@@ -38,19 +47,15 @@ export class AdditionService{
           );
   }
   submitAdditions(recipe, grains, hops){
+    let baseUrl = this.baseUrl;
+    let authHeader = this.authHeader;
     recipe = JSON.parse(recipe);
     let http = this.http;
     grains.forEach(function(grain){
         grain.recipe_id = recipe.id;
         grain = JSON.stringify(grain);
 
-        var token = localStorage.getItem('token');
-        var authHeader = new Headers();
-        if(token) {
-          authHeader.append('Authorization', 'Basic ' + token);
-        }
-        authHeader.append('Content-Type', 'application/json');
-        http.post('http://brewday.carbonrail.com/api/v1/recipes/' + recipe.id + '/grains',
+        http.post(baseUrl + '/' + recipe.id + '/grains',
             grain, {
             headers: authHeader
             })
@@ -64,13 +69,7 @@ export class AdditionService{
         hop.recipe_id = recipe.id;
         hop = JSON.stringify(hop);
 
-        var token = localStorage.getItem('token');
-        var authHeader = new Headers();
-        if(token) {
-          authHeader.append('Authorization', 'Basic ' + token);
-        }
-        authHeader.append('Content-Type', 'application/json');
-        http.post('http://brewday.carbonrail.com/api/v1/recipes/' + recipe.id + '/hops',
+        http.post(baseUrl + '/' + recipe.id + '/hops',
             hop, {
             headers: authHeader
             })
@@ -97,6 +96,7 @@ export class Grains{
     this.grainList = [];
     this.recipe = navParams.get('recipe');
     this.original_grains = this.recipe.grains;
+    this.additionService = additionService;
 
     this.grains = additionService.setDefaultAdditions(this.recipe, 'grains');
     console.log(this.grains);
@@ -123,6 +123,11 @@ export class Grains{
     console.log(this.grains);
     this.nav.push(Hops, {recipe: this.recipe});
   }
+  saveRecipe(){
+    this.recipe.grains = this.grains;
+    this.additionService.saveRecipe(
+      this.recipe, this.recipe.grains, this.recipe.hops);
+  }
 }
 
 @Page({
@@ -140,6 +145,8 @@ export class Hops{
     this.hops = [];
     this.recipe = navParams.get('recipe');
     this.original_hops = this.recipe.hops;
+    this.additionService = additionService;
+    console.log(this.recipe);
 
     this.hops = additionService.setDefaultAdditions(this.recipe, 'hops');
     this.getHops();
@@ -159,5 +166,10 @@ export class Hops{
   }
   removeAddition(addition){
     this.hops.splice(this.hops.indexOf(addition), 1)
+  }
+  saveRecipe(){
+    this.recipe.hops = this.hops;
+    this.additionService.saveRecipe(
+      this.recipe, this.recipe.grains, this.recipe.hops);
   }
 }

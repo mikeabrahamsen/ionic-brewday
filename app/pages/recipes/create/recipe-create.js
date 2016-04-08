@@ -17,12 +17,7 @@ export class RecipeCreate{
     console.log(this.recipe);
   }
   navGrains(){
-    this.createRecipe()
-    this.nav.push(Grains, {recipe: this.recipe});
-  }
-  createRecipe(){
-    this.recipe.name = this.name;
-    this.recipe.beer_type = this.beer_type;
     this.recipe.equipment_id = 1; // not implemented
+    this.nav.push(Grains, {recipe: this.recipe});
   }
 }
