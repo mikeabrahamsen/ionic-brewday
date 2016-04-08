@@ -14,6 +14,73 @@ export class AdditionService{
     return this.additions;
   }
 
+  saveRecipe(recipe, grains, hops){
+    let newRecipe = JSON.stringify({
+      name: this.recipe.name,
+      beer_type: this.recipe.beer_type,
+      equipment_id: this.recipe.equipment_id
+    })
+
+    var token = localStorage.getItem('token');
+    var authHeader = new Headers();
+    if(token) {
+      authHeader.append('Authorization', 'Basic ' + token);
+    }
+    authHeader.append('Content-Type', 'application/json');
+    this.http.post('http://brewday.carbonrail.com/api/v1/recipes',
+        newRecipe, {
+        headers: authHeader
+        })
+      .subscribe(
+          // submit the recipes for the given recipe
+          data => this.submitAdditions(data._body, grains, hops),
+          err => console.log(err)
+          );
+  }
+  submitAdditions(recipe, grains, hops){
+    recipe = JSON.parse(recipe);
+    let http = this.http;
+    grains.forEach(function(grain){
+        grain.recipe_id = recipe.id;
+        grain = JSON.stringify(grain);
+
+        var token = localStorage.getItem('token');
+        var authHeader = new Headers();
+        if(token) {
+          authHeader.append('Authorization', 'Basic ' + token);
+        }
+        authHeader.append('Content-Type', 'application/json');
+        http.post('http://brewday.carbonrail.com/api/v1/recipes/' + recipe.id + '/grains',
+            grain, {
+            headers: authHeader
+            })
+          .subscribe(
+              data => console.log(data),
+              err => console.log(err)
+              );
+        });
+
+    hops.forEach(function(hop){
+        hop.recipe_id = recipe.id;
+        hop = JSON.stringify(hop);
+
+        var token = localStorage.getItem('token');
+        var authHeader = new Headers();
+        if(token) {
+          authHeader.append('Authorization', 'Basic ' + token);
+        }
+        authHeader.append('Content-Type', 'application/json');
+        http.post('http://brewday.carbonrail.com/api/v1/recipes/' + recipe.id + '/hops',
+            hop, {
+            headers: authHeader
+            })
+          .subscribe(
+              data => console.log(data),
+              err => console.log(err)
+              );
+        });
+  }
+
 }
 @Page({
   templateUrl: 'build/pages/recipes/additions/grains.html',
@@ -92,73 +159,5 @@ export class Hops{
   }
   removeAddition(addition){
     this.hops.splice(this.hops.indexOf(addition), 1)
-  }
-  saveRecipe(){
-    this.recipe.hops = this.hops;
-    let newRecipe = JSON.stringify({
-      name: this.recipe.name,
-      beer_type: this.recipe.beer_type,
-      equipment_id: this.recipe.equipment_id
-    })
-
-    var token = localStorage.getItem('token');
-    var authHeader = new Headers();
-    if(token) {
-      authHeader.append('Authorization', 'Basic ' + token);
-    }
-    authHeader.append('Content-Type', 'application/json');
-    this.http.post('http://brewday.carbonrail.com/api/v1/recipes',
-        newRecipe, {
-        headers: authHeader
-        })
-      .subscribe(
-          data => this.submitAdditions(data._body),
-          err => console.log(err)
-          );
-  }
-  submitAdditions(recipe){
-    recipe = JSON.parse(recipe);
-    let http = this.http;
-    this.recipe.grains.forEach(function(grain){
-        grain.recipe_id = recipe.id;
-        grain = JSON.stringify(grain);
-        console.log(grain);
-
-        var token = localStorage.getItem('token');
-        var authHeader = new Headers();
-        if(token) {
-          authHeader.append('Authorization', 'Basic ' + token);
-        }
-        authHeader.append('Content-Type', 'application/json');
-        http.post('http://brewday.carbonrail.com/api/v1/recipes/' + recipe.id + '/grains',
-            grain, {
-            headers: authHeader
-            })
-          .subscribe(
-              data => console.log(data),
-              err => console.log(err)
-              );
-        })
-
-    this.recipe.hops.forEach(function(hop){
-        hop.recipe_id = recipe.id;
-        hop = JSON.stringify(hop);
-        console.log(hop);
-
-        var token = localStorage.getItem('token');
-        var authHeader = new Headers();
-        if(token) {
-          authHeader.append('Authorization', 'Basic ' + token);
-        }
-        authHeader.append('Content-Type', 'application/json');
-        http.post('http://brewday.carbonrail.com/api/v1/recipes/' + recipe.id + '/hops',
-            hop, {
-            headers: authHeader
-            })
-          .subscribe(
-              data => console.log(data),
-              err => console.log(err)
-              );
-        })
   }
 }
