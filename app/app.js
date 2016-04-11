@@ -1,3 +1,4 @@
+import 'es6-shim';
 import {App, Platform} from 'ionic-angular';
 import {TabsPage} from './pages/tabs/tabs';
 import {Login} from './pages/session/session';
