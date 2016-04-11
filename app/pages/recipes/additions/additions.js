@@ -42,7 +42,7 @@ export class AdditionService{
         })
       .subscribe(
           // submit the recipes for the given recipe
-          data => this.submitAdditions(data._body, grains, hops),
+          data => this.submitAdditions(data._body, recipe.grains, recipe.hops),
           err => console.log(err)
           );
   }
@@ -126,7 +126,7 @@ export class Grains{
   saveRecipe(){
     this.recipe.grains = this.grains;
     this.additionService.saveRecipe(
-      this.recipe, this.recipe.grains, this.recipe.hops);
+      this.recipe);
   }
 }
 
@@ -170,6 +170,6 @@ export class Hops{
   saveRecipe(){
     this.recipe.hops = this.hops;
     this.additionService.saveRecipe(
-      this.recipe, this.recipe.grains, this.recipe.hops);
+      this.recipe);
   }
 }
