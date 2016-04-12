@@ -1,11 +1,13 @@
 <ion-navbar *navbar>
-  <ion-title>
-      {{recipe.name}}
-  </ion-title>
-<ion-buttons end>
-    <button (click)="editRecipe()" item-right>Edit
-    </button>
-  </ion-buttons>
+    <ion-title>
+        {{recipe.name}}
+    </ion-title>
+    <ion-buttons end>
+        <button (click)="deleteRecipe()" item-left>Delete
+        </button>
+        <button (click)="editRecipe()" item-right>Edit
+        </button>
+    </ion-buttons>
 </ion-navbar>
 <ion-content class="page2">
     <h3>Total Grain Bill: {{grainTotal()}} lbs</h3>

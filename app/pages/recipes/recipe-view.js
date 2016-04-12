@@ -1,4 +1,4 @@
-import {Page, NavController, NavParams} from 'ionic-angular';
+import {Page, NavController, NavParams, Events} from 'ionic-angular';
 import { Http, Headers, HTTP_PROVIDERS } from 'angular2/http';
 import { CalculatorService } from './calculator';
 import {RecipeCreate} from './create/recipe-create';
@@ -11,18 +11,30 @@ import {RecipeCreate} from './create/recipe-create';
 })
 export class RecipeView{
   static get parameters(){
-    return [[Http], [NavController], [NavParams], [CalculatorService]];
+    return [[Http], [NavController], [NavParams], [CalculatorService], [Events]];
   }
-  constructor(http, nav, navParams, calc) {
+  constructor(http, nav, navParams, calc, events) {
     this.http = http;
     this.nav = nav;
     this.calc = calc;
     this.recipe = navParams.get('recipe');
     this.grains = [];
     this.hops = [];
+    this.events = events;
+
+    this.baseUrl = 'http://brewday.carbonrail.com/api/v1/recipes/'
+    var token = localStorage.getItem('token');
+
+    this.authHeader = new Headers();
+    if(token) {
+      this.authHeader.append('Authorization', 'Basic ' + token);
+    }
+
     this.getGrains();
     this.getHops();
   }
+
+  /* Calculate the total grains used and update calculator */
   grainTotal(){
     let total = 0;
     for (var grain of this.grains){
@@ -35,34 +47,56 @@ export class RecipeView{
     this.grainBill = total;
     return total;
   }
+
+  /* Get the grains for the recipe */
   getGrains(){
-    var token = localStorage.getItem('token');
-    var authHeader = new Headers();
-    if(token) {
-      authHeader.append('Authorization', 'Basic ' + token);
-    }
-    this.http.get('http://brewday.carbonrail.com/api/v1/recipes/' + this.recipe.id + "/grains", {
+    let baseUrl = this.baseUrl;
+    let authHeader = this.authHeader;
+
+    this.http.get(baseUrl + this.recipe.id + "/grains", {
         headers: authHeader
         })
-      .subscribe(
-          data => this.recipe.grains = JSON.parse(data._body),
-          err => this.logError(err)
-          );
+    .subscribe(
+        data => this.recipe.grains = JSON.parse(data._body),
+        err => this.logError(err)
+        );
   }
+
+  /* Get the hops for the recipe */
   getHops(){
-    var token = localStorage.getItem('token');
-    var authHeader = new Headers();
-    if(token) {
-      authHeader.append('Authorization', 'Basic ' + token);
-    }
-    this.http.get('http://brewday.carbonrail.com/api/v1/recipes/' + this.recipe.id + "/hops", {
+    let baseUrl = this.baseUrl;
+    let authHeader = this.authHeader;
+
+    this.http.get(baseUrl + this.recipe.id + "/hops", {
+          headers: authHeader
+        })
+    .subscribe(
+        data => this.recipe.hops= JSON.parse(data._body),
+        err => this.logError(err)
+        );
+  }
+
+  /* Move to edit recipe page */
+  editRecipe(){
+    this.nav.push(RecipeCreate, {recipe: this.recipe});
+  }
+
+  /* Delete the recipe */
+  deleteRecipe(){
+    let baseUrl = this.baseUrl;
+    let authHeader = this.authHeader;
+
+    this.http.delete(baseUrl + this.recipe.id, {
       headers: authHeader
     })
-    .subscribe(
-      data => this.recipe.hops= JSON.parse(data._body),
-        err => this.logError(err)
-    )}
-    editRecipe(){
-      this.nav.push(RecipeCreate, {recipe: this.recipe});
-    }
+    .subscribe
+      (
+       data => {
+         this.events.publish('reloadRecipeList');
+         this.nav.pop()
+       },
+       err => this.logError(err)
+      );
+  }
+
 }

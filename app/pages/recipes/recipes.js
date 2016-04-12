@@ -1,4 +1,4 @@
-import {Page, NavController} from 'ionic-angular';
+import {Page, NavController, Events} from 'ionic-angular';
 import { Http, Headers, HTTP_PROVIDERS } from 'angular2/http';
 import {RecipeView} from './recipe-view';
 import {RecipeCreate} from './create/recipe-create';
@@ -8,13 +8,18 @@ import {RecipeCreate} from './create/recipe-create';
 })
 export class Page2 {
   static get parameters(){
-    return [[Http], [NavController]];
+    return [[Http], [NavController], [Events]];
   }
-  constructor(http, nav) {
+  constructor(http, nav, events) {
     this.http = http;
     this.nav = nav;
     this.recipes = [];
-    this.getRecipes()
+    this.getRecipes();
+    this.events = events;
+
+    this.events.subscribe('reloadRecipeList',() => {
+      this.getRecipes();
+    });
   }
   logError(err) {
     console.error('Error: ' + err);
