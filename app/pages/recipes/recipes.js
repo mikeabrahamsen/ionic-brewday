@@ -21,6 +21,9 @@ export class Page2 {
       this.getRecipes();
     });
   }
+  doSomething() {
+    return 'Do Something';
+  }
   logError(err) {
     console.error('Error: ' + err);
   }
