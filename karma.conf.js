@@ -13,7 +13,6 @@ module.exports = function(config) {
           'app/**/*.js',
 
 
-          { pattern: 'test/ionic-angular.js', included: false, watched: false },
           { pattern: 'node_modules/angular2/**/*.js', included: false, watched: false },
           { pattern: 'node_modules/ionic-angular/**/*.js', included: false, watched: false },
           { pattern: 'node_modules/rxjs/**/*.js', included: false, watched: false },
