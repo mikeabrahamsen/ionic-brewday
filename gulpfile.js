@@ -32,7 +32,7 @@ var buildSass = require('ionic-gulp-sass-build');
 var copyHTML = require('ionic-gulp-html-copy');
 var copyFonts = require('ionic-gulp-fonts-copy');
 var copyScripts = require('ionic-gulp-scripts-copy');
-var karma = require('karma').server;
+var karma = require('karma');
 
 gulp.task('watch', ['clean'], function(done){
   runSequence(
@@ -62,9 +62,10 @@ gulp.task('clean', function(){
 });
 
 gulp.task('test', function (done) {
-  karma.start({
+  server = new karma.Server({
     configFile: __dirname + '/karma.conf.js',
     singleRun: true
   }, done);
+  server.start();
 
 });
