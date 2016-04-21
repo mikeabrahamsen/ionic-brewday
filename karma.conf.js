@@ -47,11 +47,12 @@ module.exports = function(config) {
             'karma-jasmine',
             'karma-coverage',
             'karma-phantomjs-launcher',
-            'karma-browserify'
+            'karma-browserify',
+            'karma-notify-reporter'
         ],
 
         // Coverage reporter generates the coverage
-        reporters: ['progress', 'dots', 'coverage'],
+        reporters: ['progress', 'coverage', 'notify'],
 
         // preprocess matching files before serving them to the browser
         // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
@@ -60,7 +61,6 @@ module.exports = function(config) {
           'app/**/!(*.spec|*.stub).js': 'coverage',
         },
         browserify: {
-            debug: true,
             transform: [
               ['babelify', {
                 plugins: ['transform-decorators-legacy'],
@@ -72,6 +72,10 @@ module.exports = function(config) {
             reporters:[
                 {type: 'json', subdir: '.', file: 'coverage-final.json'}
             ]
+        },
+        notifyReporter: {
+          reportEachFailure: true, // Default: false, Will notify on every failed sepc
+          reportSuccess: true, // Default: true, Will notify when a suite was successful
         },
 
         singleRun: true

@@ -69,3 +69,12 @@ gulp.task('test', function (done) {
   server.start();
 
 });
+
+gulp.task('tdd', function (done) {
+  server = new karma.Server({
+    configFile: __dirname + '/karma.conf.js',
+    singleRun: false
+  }, done);
+  server.start();
+
+});
