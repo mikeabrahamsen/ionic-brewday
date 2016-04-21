@@ -1,5 +1,6 @@
 import {Page, NavController, Events} from 'ionic-angular';
 import { Http, Headers, HTTP_PROVIDERS } from 'angular2/http';
+import 'rxjs/Rx';
 import {RecipeView} from './recipe-view';
 import {RecipeCreate} from './create/recipe-create';
 
@@ -17,9 +18,9 @@ export class Page2 {
     this.getRecipes();
     this.events = events;
 
-    this.events.subscribe('reloadRecipeList',() => {
-      this.getRecipes();
-    });
+    //this.events.subscribe('reloadRecipeList',() => {
+    //  this.getRecipes();
+    //});
   }
   doSomething() {
     return 'Do Something';
@@ -27,6 +28,11 @@ export class Page2 {
   logError(err) {
     console.error('Error: ' + err);
   }
+  getBlogs(){
+    return this.http.get('/api/blogs')
+      .map((res = Response) => { return res.json(); });
+  }
+
   getRecipes() {
 
     var token = localStorage.getItem('token');

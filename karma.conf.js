@@ -6,6 +6,7 @@ module.exports = function(config) {
         frameworks: ['browserify', 'jasmine'],
 
         files: [
+          'node_modules/es6-shim/es6-shim.js',
           'node_modules/zone.js/dist/zone.js',
           'node_modules/zone.js/dist/long-stack-trace-zone.js',
           'node_modules/zone.js/dist/jasmine-patch.js',
@@ -29,7 +30,7 @@ module.exports = function(config) {
         // proxied base paths
         proxies: {
             // required for component assests fetched by Angular's compiler
-            '/src/': '/base/src/'
+            '/build': '/base/www/build'
         },
 
         port: 9876,
