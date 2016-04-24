@@ -30,7 +30,7 @@ export class Page2 {
   }
   getBlogs(){
     return this.http.get('/api/blogs')
-      .map((res = Response) => { return res.json(); });
+      .map(response => response.json());
   }
 
   getRecipes() {
