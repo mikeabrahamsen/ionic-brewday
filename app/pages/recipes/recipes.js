@@ -4,23 +4,43 @@ import 'rxjs/Rx';
 import {RecipeView} from './recipe-view';
 import {RecipeCreate} from './create/recipe-create';
 
+export class RecipeService{
+  static get parameters(){
+    return [[Http]];
+  }
+  constructor(http) {
+    this.http = http;
+  }
+  getAllRecipes(){
+    var token = localStorage.getItem('token');
+    var authHeader = new Headers();
+    if(token) {
+      authHeader.append('Authorization', 'Basic ' + token);
+    }
+    return this.http.get('http://brewday.carbonrail.com/api/v1/recipes', {
+        headers: authHeader
+        }).map(response => response.json());
+  }
+}
+
 @Page({
-  templateUrl: 'build/pages/recipes/recipe-list.html'
+  templateUrl: 'build/pages/recipes/recipe-list.html',
+  providers: [RecipeService]
 })
 export class Page2 {
   static get parameters(){
-    return [[Http], [NavController], [Events]];
+    return [[NavController], [Events], [RecipeService]];
   }
-  constructor(http, nav, events) {
-    this.http = http;
+  constructor(nav, events, recipeService) {
     this.nav = nav;
     this.recipes = [];
-    this.getRecipes();
     this.events = events;
+    this.recipeService = recipeService;
+    this.getRecipes();
 
-    //this.events.subscribe('reloadRecipeList',() => {
-    //  this.getRecipes();
-    //});
+    this.events.subscribe('reloadRecipeList',() => {
+      this.getRecipes();
+    });
   }
   doSomething() {
     return 'Do Something';
@@ -28,25 +48,11 @@ export class Page2 {
   logError(err) {
     console.error('Error: ' + err);
   }
-  getBlogs(){
-    return this.http.get('/api/blogs')
-      .map(response => response.json());
-  }
-
   getRecipes() {
-
-    var token = localStorage.getItem('token');
-    var authHeader = new Headers();
-    if(token) {
-      authHeader.append('Authorization', 'Basic ' + token);
-    }
-    this.http.get('http://brewday.carbonrail.com/api/v1/recipes', {
-        headers: authHeader
-        })
-      .subscribe(
-          data => this.recipes= JSON.parse(data._body),
-          err => this.logError(err)
-          );
+    var recipeStream = this.recipeService.getAllRecipes().subscribe(
+          data => this.recipes = data,
+          err => { this.recipe_error = true }
+    );
   }
   recipeSelected(recipe){
     this.recipe = recipe;
