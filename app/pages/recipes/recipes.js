@@ -3,25 +3,8 @@ import { Http, Headers, HTTP_PROVIDERS } from 'angular2/http';
 import 'rxjs/Rx';
 import {RecipeView} from './recipe-view';
 import {RecipeCreate} from './create/recipe-create';
+import { RecipeService } from './recipe.service';
 
-export class RecipeService{
-  static get parameters(){
-    return [[Http]];
-  }
-  constructor(http) {
-    this.http = http;
-  }
-  getAllRecipes(){
-    var token = localStorage.getItem('token');
-    var authHeader = new Headers();
-    if(token) {
-      authHeader.append('Authorization', 'Basic ' + token);
-    }
-    return this.http.get('http://brewday.carbonrail.com/api/v1/recipes', {
-        headers: authHeader
-        }).map(response => response.json());
-  }
-}
 
 @Page({
   templateUrl: 'build/pages/recipes/recipe-list.html',

@@ -2,18 +2,20 @@ import {Page, NavController, NavParams, Events} from 'ionic-angular';
 import { Http, Headers, HTTP_PROVIDERS } from 'angular2/http';
 import { CalculatorService } from './calculator';
 import {RecipeCreate} from './create/recipe-create';
+import { RecipeService } from './recipe.service';
 
 
 @Page({
   templateUrl: 'build/pages/recipes/recipe-view.html',
-  providers: [CalculatorService]
+  providers: [CalculatorService, RecipeService]
 
 })
 export class RecipeView{
   static get parameters(){
-    return [[Http], [NavController], [NavParams], [CalculatorService], [Events]];
+    return [[Http], [NavController], [NavParams], [CalculatorService], [Events],
+    [RecipeService]];
   }
-  constructor(http, nav, navParams, calc, events) {
+  constructor(http, nav, navParams, calc, events, recipeService) {
     this.http = http;
     this.nav = nav;
     this.calc = calc;
@@ -21,6 +23,7 @@ export class RecipeView{
     this.grains = [];
     this.hops = [];
     this.events = events;
+    this.recipeService = recipeService;
 
     this.baseUrl = 'http://brewday.carbonrail.com/api/v1/recipes/'
     var token = localStorage.getItem('token');
@@ -82,20 +85,14 @@ export class RecipeView{
   }
 
   /* Delete the recipe */
-  deleteRecipe(){
-    let baseUrl = this.baseUrl;
-    let authHeader = this.authHeader;
-
-    this.http.delete(baseUrl + this.recipe.id, {
-      headers: authHeader
-    })
-    .subscribe
+  deleteCurrentRecipe(){
+    this.recipeService.deleteRecipe(this.recipe.id).subscribe
       (
        data => {
          this.events.publish('reloadRecipeList');
-         this.nav.pop()
+         this.nav.pop();
        },
-       err => this.logError(err)
+       err => this.delete_error = true
       );
   }
 
