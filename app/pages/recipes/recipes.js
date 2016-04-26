@@ -42,12 +42,6 @@ export class Page2 {
       this.getRecipes();
     });
   }
-  doSomething() {
-    return 'Do Something';
-  }
-  logError(err) {
-    console.error('Error: ' + err);
-  }
   getRecipes() {
     var recipeStream = this.recipeService.getAllRecipes().subscribe(
           data => this.recipes = data,
