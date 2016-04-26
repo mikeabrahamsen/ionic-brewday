@@ -6,6 +6,9 @@ import {TabsPage} from '../tabs/tabs';
   templateUrl: 'build/pages/session/session-create.html',
 })
 export class Login{
+  static get parameters(){
+    return [[Http],[NavController]];
+  }
   constructor(http, nav) {
     this.nav = nav;
     this.http = http;
