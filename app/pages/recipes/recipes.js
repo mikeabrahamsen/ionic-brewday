@@ -27,7 +27,7 @@ export class RecipeService{
   templateUrl: 'build/pages/recipes/recipe-list.html',
   providers: [RecipeService]
 })
-export class Page2 {
+export class RecipeList{
   static get parameters(){
     return [[NavController], [Events], [RecipeService]];
   }
