@@ -67,15 +67,9 @@ export class RecipeView{
 
   /* Get the hops for the recipe */
   getHops(){
-    let baseUrl = this.baseUrl;
-    let authHeader = this.authHeader;
-
-    this.http.get(baseUrl + this.recipe.id + "/hops", {
-          headers: authHeader
-        })
-    .subscribe(
-        data => this.recipe.hops= JSON.parse(data._body),
-        err => this.logError(err)
+    this.recipeService.getHopsForRecipe(this.recipe.id).subscribe(
+        data => this.recipe.hops= data,
+        err => this.hop_error = true
         );
   }
 

@@ -23,4 +23,9 @@ export class RecipeService{
     return this.http.delete(this.baseUrl + recipeId, {
       headers: this.authHeader})
   }
+  getHopsForRecipe(recipeId){
+    return this.http.get(this.baseUrl + recipeId + "/hops", {
+      headers: this.authHeader
+    }).map(response => response.json());
+  }
 }
