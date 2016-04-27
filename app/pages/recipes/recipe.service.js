@@ -15,16 +15,25 @@ export class RecipeService{
       this.authHeader.append('Authorization', 'Basic ' + token);
     }
   }
+
   getAllRecipes(){
     return this.http.get(this.baseUrl.slice(0, -1), {
         headers: this.authHeader}).map(response => response.json());
   }
+
   deleteRecipe(recipeId){
     return this.http.delete(this.baseUrl + recipeId, {
       headers: this.authHeader})
   }
+
   getHopsForRecipe(recipeId){
     return this.http.get(this.baseUrl + recipeId + "/hops", {
+      headers: this.authHeader
+    }).map(response => response.json());
+  }
+
+  getGrainsForRecipe(recipeId){
+    return this.http.get(this.baseUrl + recipeId + "/grains", {
       headers: this.authHeader
     }).map(response => response.json());
   }

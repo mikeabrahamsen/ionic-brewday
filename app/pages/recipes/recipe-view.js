@@ -1,8 +1,7 @@
 import {Page, NavController, NavParams, Events} from 'ionic-angular';
-import { Http, Headers, HTTP_PROVIDERS } from 'angular2/http';
-import { CalculatorService } from './calculator';
+import {CalculatorService} from './calculator';
 import {RecipeCreate} from './create/recipe-create';
-import { RecipeService } from './recipe.service';
+import {RecipeService} from './recipe.service';
 
 
 @Page({
@@ -12,11 +11,10 @@ import { RecipeService } from './recipe.service';
 })
 export class RecipeView{
   static get parameters(){
-    return [[Http], [NavController], [NavParams], [CalculatorService], [Events],
+    return [[NavController], [NavParams], [CalculatorService], [Events],
     [RecipeService]];
   }
-  constructor(http, nav, navParams, calc, events, recipeService) {
-    this.http = http;
+  constructor(nav, navParams, calc, events, recipeService) {
     this.nav = nav;
     this.calc = calc;
     this.recipe = navParams.get('recipe');
@@ -24,14 +22,6 @@ export class RecipeView{
     this.hops = [];
     this.events = events;
     this.recipeService = recipeService;
-
-    this.baseUrl = 'http://brewday.carbonrail.com/api/v1/recipes/'
-    var token = localStorage.getItem('token');
-
-    this.authHeader = new Headers();
-    if(token) {
-      this.authHeader.append('Authorization', 'Basic ' + token);
-    }
 
     this.getGrains();
     this.getHops();
@@ -53,15 +43,9 @@ export class RecipeView{
 
   /* Get the grains for the recipe */
   getGrains(){
-    let baseUrl = this.baseUrl;
-    let authHeader = this.authHeader;
-
-    this.http.get(baseUrl + this.recipe.id + "/grains", {
-        headers: authHeader
-        })
-    .subscribe(
-        data => this.recipe.grains = JSON.parse(data._body),
-        err => this.logError(err)
+    this.recipeService.getGrainsForRecipe(this.recipe.id).subscribe(
+        data => this.recipe.grains = data,
+        err => this.grain_error = true
         );
   }
 

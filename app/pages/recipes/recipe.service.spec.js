@@ -48,6 +48,39 @@ describe('RecipeService', function () {
       "region": null,
       "time": 60
     }]
+    var grainData = [{
+      "addition_id": 132,
+      "addition_type": "grain",
+      "amount": 2.0,
+      "brew_stage": 0,
+      "id": 51,
+      "name": "Munich",
+      "recipe_id": 4,
+      "region": "United Kingdom",
+      "time": 0
+    },
+    {
+      "addition_id": 14,
+      "addition_type": "grain",
+      "amount": 1.0,
+      "brew_stage": 0,
+      "id": 52,
+      "name": "Caramel / Crystal 60L",
+      "recipe_id": 4,
+      "region": "American",
+      "time": 0
+    },
+    {
+      "addition_id": 27,
+      "addition_type": "grain",
+      "amount": 6.75,
+      "brew_stage": 0,
+      "id": 55,
+      "name": "Pale 2-Row",
+      "recipe_id": 4,
+      "region": "American",
+      "time": 0
+    }]
     it('should get all recipes',
         inject([XHRBackend, RecipeService], (mockBackend, recipeService) => {
           mockBackend.connections.subscribe(connection => {
@@ -83,6 +116,23 @@ describe('RecipeService', function () {
             expect(data[1].addition_id).toBe(151);
             expect(data[0].id).toBe(53);
             expect(data[1].id).toBe(54);
+            expect(data[0].region).toBe(null);
+          });
+        }));
+    it('should get grains for a recipe',
+        inject([XHRBackend, RecipeService], (mockBackend, recipeService) => {
+          mockBackend.connections.subscribe(connection => {
+            connection.mockRespond(new Response(new ResponseOptions({
+              body: grainData})));
+          });
+
+          recipeService.getGrainsForRecipe(2).subscribe((data) => {
+            expect(data.length).toBe(3);
+            expect(data[0].addition_id).toBe(132);
+            expect(data[1].addition_id).toBe(14);
+            expect(data[0].id).toBe(51);
+            expect(data[2].id).toBe(55);
+            expect(data[0].region).toBe("United Kingdom");
           });
         }));
 });
