@@ -1,23 +1,28 @@
 import {Page, NavController, NavParams} from 'ionic-angular';
 import {Grains} from '../additions/additions';
+import {RecipeService} from '../recipe.service';
 
 @Page({
-  templateUrl: 'build/pages/recipes/create/recipe-create.html'
+  templateUrl: 'build/pages/recipes/create/recipe-create.html',
+  providers: [RecipeService]
 })
 export class RecipeCreate{
   static get parameters(){
-    return [[NavController], [NavParams]];
+    return [[NavController], [NavParams], [RecipeService]];
   }
-  constructor(nav, navParams) {
+  constructor(nav, navParams, recipeService) {
     this.nav = nav;
     this.recipe = navParams.get('recipe');
+    this.recipeService = recipeService;
     if(!this.recipe){
-      this.recipe = {id: undefined}
+      this.recipe = {id: undefined, equipment_id: 1}
     }
-    console.log(this.recipe);
   }
   navGrains(){
-    this.recipe.equipment_id = 1; // not implemented
     this.nav.push(Grains, {recipe: this.recipe});
+  }
+  createRecipe(){
+    this.recipeService.createRecipe(this.recipe).subscribe(
+        data => this.navGrains());
   }
 }

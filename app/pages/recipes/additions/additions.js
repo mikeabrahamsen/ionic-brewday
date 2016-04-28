@@ -1,13 +1,15 @@
 import {Page, NavController, NavParams} from 'ionic-angular';
 import { Http, Headers, HTTP_PROVIDERS } from 'angular2/http';
+import {RecipeService} from '../recipe.service';
 
 export class AdditionService{
   static get parameters(){
-    return [[Http], [NavController], [NavParams]];
+    return [[Http], [NavController], [NavParams], [RecipeService]];
   }
-  constructor(http, nav, navParams){
+  constructor(http, nav, navParams, recipeService){
     this.http = http;
     this.nav = nav;
+    this.recipeService = recipeService;
     this.baseUrl = 'http://brewday.carbonrail.com/api/v1/recipes'
     var token = localStorage.getItem('token');
     this.authHeader = new Headers();
@@ -28,21 +30,10 @@ export class AdditionService{
     return this.additions;
   }
 
-  saveRecipe(recipe, grains, hops){
-    let baseUrl = this.baseUrl;
-    let authHeader = this.authHeader;
-    let newRecipe = JSON.stringify({
-      name: recipe.name,
-      beer_type: recipe.beer_type,
-      equipment_id: recipe.equipment_id
-    })
-    this.http.post(baseUrl,
-        newRecipe, {
-        headers: authHeader
-        })
-      .subscribe(
+  saveRecipe(recipe){
+      this.recipeService.createRecipe(recipe).subscribe(
           // submit the recipes for the given recipe
-          data => this.submitAdditions(data._body, recipe.grains, recipe.hops),
+          data => this.submitAdditions(data, recipe.grains, recipe.hops),
           err => console.log(err)
           );
   }

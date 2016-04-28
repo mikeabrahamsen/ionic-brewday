@@ -37,4 +37,16 @@ export class RecipeService{
       headers: this.authHeader
     }).map(response => response.json());
   }
+
+  createRecipe(recipe){
+    let newRecipe = JSON.stringify({
+      name: recipe.name,
+      beer_type: recipe.beer_type,
+      equipment_id: recipe.equipment_id
+    });
+    this.authHeader.append('Content-Type', 'application/json');
+    return this.http.post(this.baseUrl.slice(0, -1), newRecipe, {
+      headers: this.authHeader
+    }).map(response => response.json());
+  }
 }

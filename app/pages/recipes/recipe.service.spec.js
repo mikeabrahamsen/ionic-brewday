@@ -81,6 +81,12 @@ describe('RecipeService', function () {
       "region": "American",
       "time": 0
     }]
+    var recipeData = {
+      "name": "Abrahams Amber",
+      "id": 12,
+      "beer_type": "Amber",
+      "equipment_id": 0
+    }
     it('should get all recipes',
         inject([XHRBackend, RecipeService], (mockBackend, recipeService) => {
           mockBackend.connections.subscribe(connection => {
@@ -135,4 +141,16 @@ describe('RecipeService', function () {
             expect(data[0].region).toBe("United Kingdom");
           });
         }));
+    it('should create a recipe',
+        inject([XHRBackend, RecipeService], (mockBackend, recipeService) => {
+          mockBackend.connections.subscribe(connection => {
+            connection.mockRespond(new Response(new ResponseOptions({
+              body: recipeData})));
+          });
+
+          recipeService.createRecipe(recipeData).subscribe((data) => {
+            expect(data.name).toBe("Abrahams Amber");
+          });
+        }));
+
 });
