@@ -74,7 +74,7 @@ export class AdditionService{
 }
 @Page({
   templateUrl: 'build/pages/recipes/additions/grains.html',
-  providers: [AdditionService]
+  providers: [AdditionService, RecipeService]
 })
 export class Grains{
   static get parameters(){
@@ -123,7 +123,7 @@ export class Grains{
 
 @Page({
   templateUrl: 'build/pages/recipes/additions/hops.html',
-  providers: [AdditionService]
+  providers: [AdditionService, RecipeService]
 })
 export class Hops{
   static get parameters(){
