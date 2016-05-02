@@ -1,80 +1,11 @@
 import {Page, NavController, NavParams} from 'ionic-angular';
 import { Http, Headers, HTTP_PROVIDERS } from 'angular2/http';
 import {RecipeService} from '../recipe.service';
+import {AdditionsService} from './additions.service';
 
-export class AdditionService{
-  static get parameters(){
-    return [[Http], [NavController], [NavParams], [RecipeService]];
-  }
-  constructor(http, nav, navParams, recipeService){
-    this.http = http;
-    this.nav = nav;
-    this.recipeService = recipeService;
-    this.baseUrl = 'http://brewday.carbonrail.com/api/v1/recipes'
-    var token = localStorage.getItem('token');
-    this.authHeader = new Headers();
-    if(token) {
-      this.authHeader.append('Authorization', 'Basic ' + token);
-    }
-    this.authHeader.append('Content-Type', 'application/json');
-  }
-  /* Create a blank addition if there are none in recipe */
-  setDefaultAdditions(recipe, additionName){
-    if (typeof(recipe[additionName]) === 'undefined' || recipe[additionName].length < 1){
-      var newAddition = {'recipe_id': undefined, 'brew_stage': 0, amount: 0};
-      this.additions = [newAddition];
-    }
-    else{
-      this.additions = recipe[additionName];
-    }
-    return this.additions;
-  }
-
-  saveRecipe(recipe){
-      this.recipeService.createRecipe(recipe).subscribe(
-          // submit the recipes for the given recipe
-          data => this.submitAdditions(data, recipe.grains, recipe.hops),
-          err => console.log(err)
-          );
-  }
-  submitAdditions(recipe, grains, hops){
-    let baseUrl = this.baseUrl;
-    let authHeader = this.authHeader;
-    recipe = JSON.parse(recipe);
-    let http = this.http;
-    grains.forEach(function(grain){
-        grain.recipe_id = recipe.id;
-        grain = JSON.stringify(grain);
-
-        http.post(baseUrl + '/' + recipe.id + '/grains',
-            grain, {
-            headers: authHeader
-            })
-          .subscribe(
-              data => console.log(data),
-              err => console.log(err)
-              );
-        });
-
-    hops.forEach(function(hop){
-        hop.recipe_id = recipe.id;
-        hop = JSON.stringify(hop);
-
-        http.post(baseUrl + '/' + recipe.id + '/hops',
-            hop, {
-            headers: authHeader
-            })
-          .subscribe(
-              data => console.log(data),
-              err => console.log(err)
-              );
-        });
-  }
-
-}
 @Page({
   templateUrl: 'build/pages/recipes/additions/grains.html',
-  providers: [AdditionService, RecipeService]
+  providers: [AdditionsService, RecipeService]
 })
 export class Grains{
   static get parameters(){
@@ -123,11 +54,11 @@ export class Grains{
 
 @Page({
   templateUrl: 'build/pages/recipes/additions/hops.html',
-  providers: [AdditionService, RecipeService]
+  providers: [AdditionsService, RecipeService]
 })
 export class Hops{
   static get parameters(){
-    return [[Http], [NavController], [NavParams], [AdditionService]];
+    return [[Http], [NavController], [NavParams], [AdditionsService]];
   }
   constructor(http, nav, navParams, additionService) {
     this.http = http;
