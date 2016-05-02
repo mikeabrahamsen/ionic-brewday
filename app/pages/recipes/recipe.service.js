@@ -52,26 +52,16 @@ export class RecipeService{
 
   addGrainToRecipe(grain){
     return this.http.post(this.baseUrl + grain.recipe_id + '/grains',
-        grain, {
+        JSON.stringify(grain), {
           headers: this.authHeader
         }).map(response => response.json());
   }
 
   addHopToRecipe(hop){
     return this.http.post(this.baseUrl + hop.recipe_id + '/hops',
-        hop, {
+        JSON.stringify(hop), {
           headers: this.authHeader
         }).map(response => response.json());
   }
 
-  submitRecipeAdditions(recipe, grains, hops){
-    grains.forEach(function(grain){
-        grain.recipe_id = recipe.id;
-        grain = JSON.stringify(grain);
-  });
-    hops.forEach(function(hop){
-        hop.recipe_id = recipe.id;
-        hop = JSON.stringify(hop);
-  });
-  }
 }

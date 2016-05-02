@@ -1,5 +1,4 @@
 import {Page, NavController, NavParams} from 'ionic-angular';
-import { Http, Headers, HTTP_PROVIDERS } from 'angular2/http';
 import {RecipeService} from '../recipe.service';
 import {AdditionsService} from './additions.service';
 
@@ -9,10 +8,9 @@ import {AdditionsService} from './additions.service';
 })
 export class Grains{
   static get parameters(){
-    return [[Http], [NavController], [NavParams], [AdditionsService]];
+    return [[NavController], [NavParams], [AdditionsService]];
   }
-  constructor(http, nav, navParams, additionsService) {
-    this.http = http;
+  constructor(nav, navParams, additionsService) {
     this.nav = nav;
     this.grains = []
     this.grainList = [];
@@ -26,7 +24,7 @@ export class Grains{
   getGrains() {
       this.additionsService.getGrainOptions().subscribe(
           data => this.grainList = data,
-          err => jonsole.log(err)
+          err => console.log(err)
           );
   }
   addNewGrain(){
@@ -44,7 +42,7 @@ export class Grains{
   }
   saveRecipe(){
     this.recipe.grains = this.grains;
-    this.additionService.saveRecipe(
+    this.additionsService.saveRecipe(
       this.recipe);
   }
 }
@@ -55,10 +53,9 @@ export class Grains{
 })
 export class Hops{
   static get parameters(){
-    return [[Http], [NavController], [NavParams], [AdditionsService]];
+    return [[NavController], [NavParams], [AdditionsService]];
   }
-  constructor(http, nav, navParams, additionsService) {
-    this.http = http;
+  constructor(nav, navParams, additionsService) {
     this.nav = nav;
     this.hopList = [];
     this.hops = [];
@@ -72,7 +69,7 @@ export class Hops{
   getHops() {
     this.additionsService.getHopOptions().subscribe(
         data => this.hopList = data,
-        err => this.logError(err)
+        err => console.log(err)
         );
   }
 
@@ -85,7 +82,7 @@ export class Hops{
   }
   saveRecipe(){
     this.recipe.hops = this.hops;
-    this.additionService.saveRecipe(
+    this.additionsService.saveRecipe(
       this.recipe);
   }
 }
