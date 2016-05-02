@@ -16,7 +16,7 @@ export class AdditionsService{
     else{
       this[additionName] = recipe[additionName];
     }
-    return this.additions;
+    return this[additionName];
   }
 
   saveRecipe(recipe){

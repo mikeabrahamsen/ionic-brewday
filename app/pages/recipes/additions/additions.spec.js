@@ -89,13 +89,16 @@ describe('AdditionsService', function () {
     it('should set default additions when none provided',
         inject([AdditionsService], (additionsService) => {
           var recipe = recipeData;
-          additionsService.setDefaultAdditions(recipe, 'hops');
+          var hops = additionsService.setDefaultAdditions(recipe, 'hops');
+
+          expect(hops).toBeDefined();
           expect(additionsService.hops.length).toBe(1);
           expect(additionsService.hops[0].recipe_id).not.toBeDefined();
           expect(additionsService.hops[0].brew_stage).toBe(0);
           expect(additionsService.hops[0].amount).toBe(0);
 
-          additionsService.setDefaultAdditions(recipe, 'grains');
+          var grains = additionsService.setDefaultAdditions(recipe, 'grains');
+          expect(grains).toBeDefined();
           expect(additionsService.grains.length).toBe(1);
           expect(additionsService.grains[0].recipe_id).not.toBeDefined();
           expect(additionsService.grains[0].brew_stage).toBe(0);
