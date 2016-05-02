@@ -28,9 +28,9 @@ export class RecipeView{
   }
 
   /* Calculate the total grains used and update calculator */
-  grainTotal(){
+  grainTotal(grains){
     let total = 0;
-    for (var grain of this.grains){
+    for (var grain of grains){
       total += grain.amount;
     }
     this.calc.calculateWaterVol(total);
@@ -44,7 +44,7 @@ export class RecipeView{
   /* Get the grains for the recipe */
   getGrains(){
     this.recipeService.getGrainsForRecipe(this.recipe.id).subscribe(
-        data => this.recipe.grains = data,
+        data => {this.recipe.grains = data; this.grainTotal(this.recipe.grains)},
         err => this.grain_error = true
         );
   }
