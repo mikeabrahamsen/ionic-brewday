@@ -152,5 +152,27 @@ describe('RecipeService', function () {
             expect(data.name).toBe("Abrahams Amber");
           });
         }));
+    it('should submit a grain',
+        inject([XHRBackend, RecipeService], (mockBackend, recipeService) => {
+          mockBackend.connections.subscribe(connection => {
+            connection.mockRespond(new Response(new ResponseOptions({
+              body: grainData[0]})));
+          });
+
+          recipeService.addGrainToRecipe(recipeData).subscribe((data) => {
+            expect(data.addition_id).toBe(132);
+          });
+        }));
+    it('should submit a hop',
+        inject([XHRBackend, RecipeService], (mockBackend, recipeService) => {
+          mockBackend.connections.subscribe(connection => {
+            connection.mockRespond(new Response(new ResponseOptions({
+              body: hopData[0]})));
+          });
+
+          recipeService.addHopToRecipe(recipeData).subscribe((data) => {
+            expect(data.addition_id).toBe(151);
+          });
+        }));
 
 });
