@@ -1,11 +1,16 @@
 import {RecipeService} from '../recipe.service';
+import { Http, Headers, HTTP_PROVIDERS } from 'angular2/http';
+import 'rxjs/Rx';
 
 export class AdditionsService{
   static get parameters(){
-    return [[RecipeService]];
+    return [[RecipeService],[Http]];
   }
-  constructor(recipeService){
+  constructor(recipeService, http){
     this.recipeService = recipeService;
+
+    this.http = http;
+    this.baseUrl = 'http://brewday.carbonrail.com/api/v1/'
   }
   /* Create a blank addition if there are none in recipe */
   setDefaultAdditions(recipe, additionName){
@@ -30,17 +35,31 @@ export class AdditionsService{
   submitRecipeAdditions(recipe, grains, hops){
     let rs = this.recipeService;
     grains.forEach(function(grain){
-        grain.recipe_id = recipe.id;
-        grain = JSON.stringify(grain);
-        rs.addGrainToRecipe(grain).subscribe(
-            data => grain = data,
-            err => { this.grain_error = true }
-            );
-  });
+      grain.recipe_id = recipe.id;
+      grain = JSON.stringify(grain);
+      rs.addGrainToRecipe(grain).subscribe(
+          data => grain = data,
+          err => { this.grain_error = true }
+          );
+    });
     hops.forEach(function(hop){
-        hop.recipe_id = recipe.id;
-        hop = JSON.stringify(hop);
-  });
+      hop.recipe_id = recipe.id;
+      hop = JSON.stringify(hop);
+      rs.addHopToRecipe(grain).subscribe(
+          data => grain = data,
+          err => { this.hop_error = true }
+          );
+    });
+  }
+
+  getGrainOptions(){
+    return this.http.get(this.baseUrl + 'grains', {
+    }).map(response => response.json());
+  }
+
+  getHopOptions(){
+    return this.http.get(this.baseUrl + 'hops', {
+    }).map(response => response.json());
   }
 
 }
