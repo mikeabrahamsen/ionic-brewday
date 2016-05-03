@@ -36,18 +36,23 @@ export class AdditionsService{
     let rs = this.recipeService;
     let recipe = data;
     grains.forEach(function(grain){
-      grain.recipe_id = recipe.id;
-      rs.addGrainToRecipe(grain).subscribe(
-          data => console.log(data),
-          err => { this.grain_error = true }
-          );
+      if (grain.addition_id){
+        grain.recipe_id = recipe.id;
+        rs.addGrainToRecipe(grain).subscribe(
+            data => console.log(data),
+            err => { this.grain_error = true }
+            );
+      }
     });
     hops.forEach(function(hop){
-      hop.recipe_id = recipe.id;
-      rs.addHopToRecipe(hop).subscribe(
-          data => console.log(data),
-          err => { this.hop_error = true }
-          );
+      console.log(hop);
+      if (hop.addition_id !== undefined ){
+        hop.recipe_id = recipe.id;
+        rs.addHopToRecipe(hop).subscribe(
+            data => console.log(data),
+            err => { this.hop_error = true }
+            );
+      }
     });
   }
 

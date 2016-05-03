@@ -159,7 +159,7 @@ describe('RecipeService', function () {
               body: grainData[0]})));
           });
 
-          recipeService.addGrainToRecipe(recipeData).subscribe((data) => {
+          recipeService.addGrainToRecipe(grainData[0]).subscribe((data) => {
             expect(data.addition_id).toBe(132);
           });
         }));
@@ -170,9 +170,8 @@ describe('RecipeService', function () {
               body: hopData[0]})));
           });
 
-          recipeService.addHopToRecipe(recipeData).subscribe((data) => {
+          recipeService.addHopToRecipe(hopData[0]).subscribe((data) => {
             expect(data.addition_id).toBe(151);
           });
         }));
-
 });
