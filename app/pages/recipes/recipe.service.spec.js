@@ -174,4 +174,28 @@ describe('RecipeService', function () {
             expect(data.addition_id).toBe(151);
           });
         }));
+    it('should not submit a hop if there is no addition_id',
+        inject([RecipeService], (recipeService) => {
+          spyOn(recipeService, 'addHopToRecipe')
+          var hop = hopData[0];
+          hop.addition_id = undefined;
+          var hops = [hop]
+
+          recipeService.submitRecipeAdditions(recipeData, [], hops);
+          expect(recipeService.addHopToRecipe).not.toHaveBeenCalled();
+        }));
+
+    it('should not submit a grain if there is no addition_id',
+        inject([RecipeService], (recipeService) => {
+          spyOn(recipeService, 'addGrainToRecipe')
+          var grain = grainData[0];
+          grain.addition_id = undefined;
+          var grains = [grain]
+
+          recipeService.submitRecipeAdditions(recipeData, grains, []);
+          expect(recipeService.addGrainToRecipe).not.toHaveBeenCalled();
+
+        }));
+
+
 });

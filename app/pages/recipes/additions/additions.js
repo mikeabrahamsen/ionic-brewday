@@ -8,15 +8,16 @@ import {AdditionsService} from './additions.service';
 })
 export class Grains{
   static get parameters(){
-    return [[NavController], [NavParams], [AdditionsService]];
+    return [[NavController], [NavParams], [AdditionsService], [RecipeService]];
   }
-  constructor(nav, navParams, additionsService) {
+  constructor(nav, navParams, additionsService, recipeService) {
     this.nav = nav;
     this.grains = []
     this.grainList = [];
     this.recipe = navParams.get('recipe');
     this.original_grains = this.recipe.grains;
     this.additionsService = additionsService;
+    this.recipeService = recipeService;
 
     this.grains = additionsService.setDefaultAdditions(this.recipe, 'grains');
     this.getGrains();
@@ -42,8 +43,9 @@ export class Grains{
   }
   saveRecipe(){
     this.recipe.grains = this.grains;
-    this.additionsService.saveRecipe(
+    this.recipeService.saveRecipe(
       this.recipe);
+    this.nav.popToRoot();
   }
 }
 
@@ -53,15 +55,16 @@ export class Grains{
 })
 export class Hops{
   static get parameters(){
-    return [[NavController], [NavParams], [AdditionsService]];
+    return [[NavController], [NavParams], [AdditionsService], [RecipeService]];
   }
-  constructor(nav, navParams, additionsService) {
+  constructor(nav, navParams, additionsService, recipeService) {
     this.nav = nav;
     this.hopList = [];
     this.hops = [];
     this.recipe = navParams.get('recipe');
     this.original_hops = this.recipe.hops;
     this.additionsService = additionsService;
+    this.recipeService = recipeService;
 
     this.hops = additionsService.setDefaultAdditions(this.recipe, 'hops');
     this.getHops();
@@ -82,7 +85,8 @@ export class Hops{
   }
   saveRecipe(){
     this.recipe.hops = this.hops;
-    this.additionsService.saveRecipe(
+    this.recipeService.saveRecipe(
       this.recipe);
+    this.nav.popToRoot();
   }
 }

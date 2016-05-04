@@ -171,28 +171,4 @@ describe('AdditionsService', function () {
             expect(data).toBe(hopOptions);
           });
         }));
-    it('should not submit a hop if there is no addition_id',
-        inject([AdditionsService, RecipeService], (additionsService, recipeService) => {
-          spyOn(recipeService, 'addHopToRecipe')
-          var hop = hopData[0];
-          hop.addition_id = undefined;
-          var hops = [hop]
-
-          additionsService.submitRecipeAdditions(recipeData, [], hops);
-          expect(recipeService.addHopToRecipe).not.toHaveBeenCalled();
-        }));
-
-    it('should not submit a grain if there is no addition_id',
-        inject([AdditionsService, RecipeService], (additionsService, recipeService) => {
-          spyOn(recipeService, 'addGrainToRecipe')
-          var grain = grainData[0];
-          grain.addition_id = undefined;
-          var grains = [grain]
-
-          additionsService.submitRecipeAdditions(recipeData, grains, []);
-          expect(recipeService.addGrainToRecipe).not.toHaveBeenCalled();
-
-        }));
-
-
 });

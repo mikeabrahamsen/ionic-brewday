@@ -23,6 +23,6 @@ export class RecipeCreate{
   }
   createRecipe(){
     this.recipeService.createRecipe(this.recipe).subscribe(
-        data => this.navGrains());
+        data => this.nav.popToRoot());
   }
 }

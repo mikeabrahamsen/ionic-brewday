@@ -24,38 +24,6 @@ export class AdditionsService{
     return this[additionName];
   }
 
-  saveRecipe(recipe){
-      this.recipeService.createRecipe(recipe).subscribe(
-          // submit the recipes for the given recipe
-          data => this.submitRecipeAdditions(data, recipe.grains, recipe.hops),
-          err => console.log(err)
-          );
-  }
-
-  submitRecipeAdditions(data, grains, hops){
-    let rs = this.recipeService;
-    let recipe = data;
-    grains.forEach(function(grain){
-      if (grain.addition_id){
-        grain.recipe_id = recipe.id;
-        rs.addGrainToRecipe(grain).subscribe(
-            data => console.log(data),
-            err => { this.grain_error = true }
-            );
-      }
-    });
-    hops.forEach(function(hop){
-      console.log(hop);
-      if (hop.addition_id !== undefined ){
-        hop.recipe_id = recipe.id;
-        rs.addHopToRecipe(hop).subscribe(
-            data => console.log(data),
-            err => { this.hop_error = true }
-            );
-      }
-    });
-  }
-
   getGrainOptions(){
     return this.http.get(this.baseUrl + 'grains', {
     }).map(response => response.json());

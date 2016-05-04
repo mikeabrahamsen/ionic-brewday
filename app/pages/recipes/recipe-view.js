@@ -68,7 +68,7 @@ export class RecipeView{
       (
        data => {
          this.events.publish('reloadRecipeList');
-         this.nav.pop();
+         this.nav.popToRoot();
        },
        err => this.delete_error = true
       );

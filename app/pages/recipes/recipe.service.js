@@ -64,4 +64,34 @@ export class RecipeService{
         }).map(response => response.json());
   }
 
+  saveRecipe(recipe){
+      this.createRecipe(recipe).subscribe(
+          // submit the recipes for the given recipe
+          data => this.submitRecipeAdditions(data, recipe.grains, recipe.hops),
+          err => console.log(err)
+          );
+  }
+
+  submitRecipeAdditions(data, grains, hops){
+    let rs = this;
+    let recipe = data;
+    grains.forEach(function(grain){
+      if (grain.addition_id){
+        grain.recipe_id = recipe.id;
+        rs.addGrainToRecipe(grain).subscribe(
+            data => console.log(data),
+            err => { this.grain_error = true }
+            );
+      }
+    });
+    hops.forEach(function(hop){
+      if (hop.addition_id !== undefined ){
+        hop.recipe_id = recipe.id;
+        rs.addHopToRecipe(hop).subscribe(
+            data => console.log(data),
+            err => { this.hop_error = true }
+            );
+      }
+    });
+  }
 }
