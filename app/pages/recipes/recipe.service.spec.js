@@ -177,25 +177,21 @@ describe('RecipeService', function () {
     it('should not submit a hop if there is no addition_id',
         inject([RecipeService], (recipeService) => {
           spyOn(recipeService, 'addHopToRecipe')
-          var hop = hopData[0];
+          var hop = Object.assign({}, hopData[0]);
           hop.addition_id = undefined;
-          var hops = [hop]
 
-          recipeService.submitRecipeAdditions(recipeData, [], hops);
+          recipeService.submitRecipeAdditions(recipeData, [], [hop]);
           expect(recipeService.addHopToRecipe).not.toHaveBeenCalled();
         }));
 
     it('should not submit a grain if there is no addition_id',
         inject([RecipeService], (recipeService) => {
-          spyOn(recipeService, 'addGrainToRecipe')
-          var grain = grainData[0];
+          spyOn(recipeService, 'addGrainToRecipe');
+          var grain = Object.assign({}, grainData[0]);
           grain.addition_id = undefined;
-          var grains = [grain]
 
-          recipeService.submitRecipeAdditions(recipeData, grains, []);
+          recipeService.submitRecipeAdditions(recipeData, [grain], []);
           expect(recipeService.addGrainToRecipe).not.toHaveBeenCalled();
 
         }));
-
-
 });

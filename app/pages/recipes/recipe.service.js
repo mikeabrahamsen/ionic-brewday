@@ -50,8 +50,21 @@ export class RecipeService{
     }).map(response => response.json());
   }
 
+  updateRecipe(recipe){
+    return this.http.put(this.baseUrl + recipe.id,
+        JSON.stringify(recipe), {
+      headers: this.authHeader
+    }).map(response => response.json());
+  }
+
   addGrainToRecipe(grain){
     return this.http.post(this.baseUrl + grain.recipe_id + '/grains',
+        JSON.stringify(grain), {
+          headers: this.authHeader
+        }).map(response => response.json());
+  }
+  updateGrain(grain){
+    return this.http.put(this.baseUrl + grain.recipe_id + '/grains/' + grain.id,
         JSON.stringify(grain), {
           headers: this.authHeader
         }).map(response => response.json());
@@ -64,12 +77,28 @@ export class RecipeService{
         }).map(response => response.json());
   }
 
+  updateHop(hop){
+    return this.http.put(this.baseUrl + hop.recipe_id + '/hops/' + hop.id,
+        JSON.stringify(hop), {
+          headers: this.authHeader
+        }).map(response => response.json());
+  }
+
   saveRecipe(recipe){
+    if (recipe.id === undefined){
       this.createRecipe(recipe).subscribe(
           // submit the recipes for the given recipe
           data => this.submitRecipeAdditions(data, recipe.grains, recipe.hops),
           err => console.log(err)
           );
+    }
+    else
+    {
+      return this.updateRecipe(recipe).subscribe(
+          data => this.submitRecipeAdditions(data, recipe.grains, recipe.hops),
+          err => console.log(err)
+          );
+    }
   }
 
   submitRecipeAdditions(data, grains, hops){
@@ -77,20 +106,36 @@ export class RecipeService{
     let recipe = data;
     grains.forEach(function(grain){
       if (grain.addition_id){
-        grain.recipe_id = recipe.id;
-        rs.addGrainToRecipe(grain).subscribe(
-            data => console.log(data),
-            err => { this.grain_error = true }
-            );
+        if(grain.recipe_id !== undefined){
+          rs.updateGrain(grain).subscribe(
+              data => console.log(data),
+              err => { this.grain_error = true }
+              );
+        }
+        else{
+          grain.recipe_id = recipe.id;
+          rs.addGrainToRecipe(grain).subscribe(
+              data => console.log(data),
+              err => { this.grain_error = true }
+              );
+        }
       }
     });
     hops.forEach(function(hop){
       if (hop.addition_id !== undefined ){
-        hop.recipe_id = recipe.id;
-        rs.addHopToRecipe(hop).subscribe(
-            data => console.log(data),
-            err => { this.hop_error = true }
-            );
+        if(hop.recipe_id !== undefined){
+          rs.updateHop(hop).subscribe(
+              data => console.log(data),
+              err => { this.hop_error = true }
+              );
+        }
+        else{
+          hop.recipe_id = recipe.id;
+          rs.addHopToRecipe(hop).subscribe(
+              data => console.log(data),
+              err => { this.hop_error = true }
+              );
+        }
       }
     });
   }
